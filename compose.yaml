@@ -1,0 +1,174 @@
+name: SpendAI
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3002"
+    volumes:
+      - ./frontend:/src/frontend
+      - /src/frontend/node_modules
+      - ./keys/backend_public.pem:/app/keys/backend_public.pem:ro  # Mount Backend's Public Key
+      - ./keys/frontend_private.pem:/app/keys/frontend_private.pem:ro  # Mount Frontend's Private Key
+    environment:
+      - BACKEND_URL=http://backend:8080
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:8080
+      - NEXT_PUBLIC_RECEIPT_SERVICE_URL=http://localhost:8081
+    develop:
+      watch:
+        - path: ./frontend/package.json
+          action: rebuild
+        - path: ./frontend/next.config.js
+          action: rebuild
+        - path: ./frontend/package-lock.json
+          action: rebuild
+        - path: ./frontend
+          target: /src/frontend
+          action: sync
+    command: npm run dev -- -p 3002
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_DATABASE=spend_ai
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    ports:
+      - "27017:27017"
+#    volumes:
+#      - ./backend/data-seed:/data
+    networks:
+      - app-network
+
+#  mongodb-seed:
+#    image: mongo:latest
+#    depends_on:
+#      - mongodb
+#    volumes:
+#      - ./backend/data-seed:/data
+#    command: >
+#      bash -c '
+#        set -e;
+#        echo "Waiting for MongoDB to be ready...";
+#        until mongosh --host mongodb --port 27017 -u root -p secret --authenticationDatabase admin --eval "print(\"waited for connection\")"; do
+#          sleep 2;
+#        done;
+#        echo "MongoDB is ready.";
+#
+#        echo "Dropping existing database and creating a new one...";
+#        mongosh --host mongodb --port 27017 -u root -p secret --authenticationDatabase admin --eval "
+#          use spend_ai;
+#          db.dropDatabase();
+#        "
+#
+#        JSON_FILES=(
+#          "spend_ai.receipts.json"
+#          "spend_ai.users.json"
+#        )
+#
+#        for file in "$${JSON_FILES[@]}"; do
+#          echo "Importing $$file...";
+#          collection=$$(echo "$$file" | sed "s/spend_ai\\.\(.*\)\.json/\\1/");
+#          mongoimport --host mongodb --port 27017 -u root -p secret \
+#            --authenticationDatabase admin --db spend_ai --collection "$$collection" \
+#            --file /data/"$$file" --jsonArray;
+#        done;
+#
+#        echo "Import completed.";
+#      '
+#    networks:
+#      - app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+#    depends_on:
+#      - mongodb-seed
+    volumes:
+      - ./backend:/src/backend # Sync the source code to /src/backend
+      - /src/backend/node_modules # Prevent node_modules from being overwritten
+      - ./keys/backend_private.pem:/app/keys/backend_private.pem:ro # Mount Backend's Private Key
+      - ./keys/frontend_public.pem:/app/keys/frontend_public.pem:ro # Mount Frontend's Public Key
+
+    environment:
+      - PORT=8080
+      - APP_NAME=backend
+      - ENVIRONMENT=development
+      - MONGODB_URI=mongodb://root:secret@mongodb:27017/spend_ai?authSource=admin
+      - JWT_SECRET=61d4c914418d42a14701d76e9c76acdf1fa86d4eaa24a2df7bb9ccb2460a0934fb0a560b6410911b5d9f89ceb7037ade7f24a991c472e85ae7f0105e899b9595
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+  receipt-service:
+    build:
+      context: ./microservices/receipt-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - backend
+    volumes:
+      - ./microservices/receipt-service:/src/receipt-service
+    environment:
+      - FLASK_ENV=development
+    develop:
+      watch:
+        - path: ./microservices/receipt-service
+          target: /app
+          action: sync
+    networks:
+        - app-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+    networks:
+      - app-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+# Start Running:
+# 1) docker compose up
+
+# Start Running (with rebuild):
+# 1) docker compose up --build
+
+# Stop Running:
+# 1) Ctrl C
+# 2) docker compose down
