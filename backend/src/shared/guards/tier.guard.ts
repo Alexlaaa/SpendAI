@@ -33,9 +33,7 @@ export class TierGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    // If user data or tier is missing, deny access (should ideally be handled by Auth guard first)
     if (!user || !user.tier) {
-      // Fix ESLint formatting
       throw new ForbiddenException(
         'Access denied. User tier information missing.',
       );

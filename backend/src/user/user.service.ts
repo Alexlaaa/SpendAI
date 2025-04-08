@@ -313,6 +313,7 @@ export class UserService {
       lastName: userObject.lastName,
       image: userObject.image ? userObject.image.toString('base64') : '',
       securityQuestion: userObject.securityQuestion,
+      tier: userObject.tier,
     };
   }
 

@@ -28,4 +28,11 @@ export class UserResponseDto {
     example: 'What was the name of your first pet?',
   })
   readonly securityQuestion: string;
+
+  @ApiProperty({
+    description: 'Subscription tier of the user',
+    enum: ['tier1', 'tier2', 'tier3'],
+    example: 'tier1',
+  })
+  readonly tier: string;
 }

@@ -11,6 +11,7 @@ type User = {
   firstName: string;
   lastName: string;
   image: string;
+  tier: 'tier1' | 'tier2' | 'tier3'; // Add tier property
 }
 
 type SignInUser = {
@@ -58,8 +59,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const result = await getLoggedInUser()
       console.log("[AuthProvider] triggered user details with result:", result)
 
-      if (result?.success) {
-        setUser(result.data)
+      if (result?.success && result.data) { // Ensure data exists
+        setUser(result.data) // Assuming result.data now includes the tier
       }
 
     }
@@ -73,8 +74,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(true);
     try {
       const result = await signIn(data);
-      if (result.success) {
-        setUser(result.user);
+      if (result.success && result.user) { // Ensure user exists
+        setUser(result.user); // API response now includes tier
         router.push('/home');
       } else {
         throw new Error(result.error);
@@ -91,8 +92,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(true);
     try {
       const result = await signUp(data);
-      if (result.success) {
-        setUser(result.user);
+      if (result.success && result.user) { // Ensure user exists
+        setUser(result.user); // API response now includes tier
         router.push('/home');
       } else {
         throw new Error(result.error);
