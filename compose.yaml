@@ -10,8 +10,8 @@ services:
     volumes:
       - ./frontend:/src/frontend
       - /src/frontend/node_modules
-      - ./keys/backend_public.pem:/app/keys/backend_public.pem:ro  # Mount Backend's Public Key
-      - ./keys/frontend_private.pem:/app/keys/frontend_private.pem:ro  # Mount Frontend's Private Key
+      - ./keys/backend_public.pem:/app/keys/backend_public.pem:ro # Mount Backend's Public Key
+      - ./keys/frontend_private.pem:/app/keys/frontend_private.pem:ro # Mount Frontend's Private Key
     environment:
       - BACKEND_URL=http://backend:8080
       - NEXT_PUBLIC_BACKEND_URL=http://localhost:8080
@@ -39,49 +39,49 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=secret
     ports:
       - "27017:27017"
-#    volumes:
-#      - ./backend/data-seed:/data
+    volumes:
+      - ./backend/data-seed:/data
     networks:
       - app-network
 
-#  mongodb-seed:
-#    image: mongo:latest
-#    depends_on:
-#      - mongodb
-#    volumes:
-#      - ./backend/data-seed:/data
-#    command: >
-#      bash -c '
-#        set -e;
-#        echo "Waiting for MongoDB to be ready...";
-#        until mongosh --host mongodb --port 27017 -u root -p secret --authenticationDatabase admin --eval "print(\"waited for connection\")"; do
-#          sleep 2;
-#        done;
-#        echo "MongoDB is ready.";
-#
-#        echo "Dropping existing database and creating a new one...";
-#        mongosh --host mongodb --port 27017 -u root -p secret --authenticationDatabase admin --eval "
-#          use spend_ai;
-#          db.dropDatabase();
-#        "
-#
-#        JSON_FILES=(
-#          "spend_ai.receipts.json"
-#          "spend_ai.users.json"
-#        )
-#
-#        for file in "$${JSON_FILES[@]}"; do
-#          echo "Importing $$file...";
-#          collection=$$(echo "$$file" | sed "s/spend_ai\\.\(.*\)\.json/\\1/");
-#          mongoimport --host mongodb --port 27017 -u root -p secret \
-#            --authenticationDatabase admin --db spend_ai --collection "$$collection" \
-#            --file /data/"$$file" --jsonArray;
-#        done;
-#
-#        echo "Import completed.";
-#      '
-#    networks:
-#      - app-network
+  mongodb-seed:
+    image: mongo:latest
+    depends_on:
+      - mongodb
+    volumes:
+      - ./backend/data-seed:/data
+    command: >
+      bash -c '
+        set -e;
+        echo "Waiting for MongoDB to be ready...";
+        until mongosh --host mongodb --port 27017 -u root -p secret --authenticationDatabase admin --eval "print(\"waited for connection\")"; do
+          sleep 2;
+        done;
+        echo "MongoDB is ready.";
+
+        echo "Dropping existing database and creating a new one...";
+        mongosh --host mongodb --port 27017 -u root -p secret --authenticationDatabase admin --eval "
+          use spend_ai;
+          db.dropDatabase();
+        "
+
+        JSON_FILES=(
+          "spend_ai.receipts.json"
+          "spend_ai.users.json"
+        )
+
+        for file in "$${JSON_FILES[@]}"; do
+          echo "Importing $$file...";
+          collection=$$(echo "$$file" | sed "s/spend_ai\\.\(.*\)\.json/\\1/");
+          mongoimport --host mongodb --port 27017 -u root -p secret \
+            --authenticationDatabase admin --db spend_ai --collection "$$collection" \
+            --file /data/"$$file" --jsonArray;
+        done;
+
+        echo "Import completed.";
+      '
+    networks:
+      - app-network
 
   backend:
     build:
@@ -89,8 +89,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-#    depends_on:
-#      - mongodb-seed
+    depends_on:
+      - mongodb-seed
     volumes:
       - ./backend:/src/backend # Sync the source code to /src/backend
       - /src/backend/node_modules # Prevent node_modules from being overwritten
@@ -126,7 +126,7 @@ services:
           target: /app
           action: sync
     networks:
-        - app-network
+      - app-network
 
   prometheus:
     image: prom/prometheus:latest
@@ -136,11 +136,11 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus/data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--web.enable-lifecycle'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+      - "--web.enable-lifecycle"
     ports:
       - "9090:9090"
     networks:
@@ -162,7 +162,6 @@ services:
 networks:
   app-network:
     driver: bridge
-
 # Start Running:
 # 1) docker compose up
 

@@ -3,4 +3,4 @@
 .DS_Store
 # Ignore Prometheus data directory
 prometheus/data/
-grafana/*-journal
+grafana/
