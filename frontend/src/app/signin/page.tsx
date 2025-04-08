@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation';
-import { Button } from "@/components/ui/button"
+import { Button2 } from "@/components/ui/button2"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Label2 } from "@/components/ui/label2"
 import { useToast } from "@/hooks/use-toast"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAuth } from '@/hooks/AuthProvider'
@@ -47,7 +47,7 @@ export default function SignInPage() {
                                 </div>
                             )}
                             <div className="space-y-2">
-                                <Label htmlFor="username">Username</Label>
+                                <Label2 htmlFor="username">Username</Label2>
                                 <Input
                                     id="username"
                                     type="text"
@@ -57,7 +57,7 @@ export default function SignInPage() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="password">Password</Label>
+                                <Label2 htmlFor="password">Password</Label2>
                                 <Input
                                     id="password"
                                     type="password"
@@ -67,9 +67,9 @@ export default function SignInPage() {
                                 />
                             </div>
                         </div>
-                        <Button type="submit" className="w-full mt-6" disabled={loading}>
+                        <Button2 type="submit" className="w-full mt-6" disabled={loading}>
                             {loading ? "Signing In..." : "Sign In"}
-                        </Button>
+                        </Button2>
                     </form>
                 </CardContent>
                 <CardFooter className="flex flex-col items-center space-y-2">

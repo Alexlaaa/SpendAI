@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
+import { Button2 } from "@/components/ui/button2";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Label2 } from "@/components/ui/label2";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
           <form onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
+                <Label2 htmlFor="email">Email Address</Label2>
                 <Input
                   id="email"
                   name="email"
@@ -71,9 +71,9 @@ export default function ForgotPasswordPage() {
                 />
               </div>
             </div>
-            <Button type="submit" className="w-full mt-6" disabled={loading}>
+            <Button2 type="submit" className="w-full mt-6" disabled={loading}>
               {loading ? "Sending..." : "Send Reset Link"}
-            </Button>
+            </Button2>
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">

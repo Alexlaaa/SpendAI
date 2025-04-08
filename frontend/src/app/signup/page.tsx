@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation';
-import { Button } from "@/components/ui/button"
+import { Button2 } from "@/components/ui/button2"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Label2 } from "@/components/ui/label2"
 import { useToast } from "@/hooks/use-toast"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAuth } from '@/hooks/AuthProvider'
@@ -83,7 +83,7 @@ export default function SignUpPage() {
                         <div className="space-y-4">
                             {['username', 'email', 'firstName', 'lastName', 'password'].map((field) => (
                                 <div key={field} className="space-y-2">
-                                    <Label htmlFor={field}>{formatLabel(field)}</Label>
+                                    <Label2 htmlFor={field}>{formatLabel(field)}</Label2>
                                     <Input
                                         id={field}
                                         name={field}
@@ -98,7 +98,7 @@ export default function SignUpPage() {
                                 </div>
                             ))}
                             <div className="space-y-2">
-                                <Label htmlFor="securityQuestion">Security Question</Label>
+                                <Label2 htmlFor="securityQuestion">Security Question</Label2>
                                 <Select onValueChange={handleSelectChange} required>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select a security question" />
@@ -113,7 +113,7 @@ export default function SignUpPage() {
                                 </Select>
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="securityAnswer">Security Answer</Label>
+                                <Label2 htmlFor="securityAnswer">Security Answer</Label2>
                                 <Input
                                     id="securityAnswer"
                                     name="securityAnswer"
@@ -124,9 +124,9 @@ export default function SignUpPage() {
                                 />
                             </div>
                         </div>
-                        <Button type="submit" className="w-full mt-6" disabled={loading}>
+                        <Button2 type="submit" className="w-full mt-6" disabled={loading}>
                             {loading ? "Signing Up..." : "Sign Up"}
-                        </Button>
+                        </Button2>
                     </form>
                 </CardContent>
                 <CardFooter className="flex flex-col items-center space-y-2">

@@ -61,6 +61,19 @@ export class User {
     geminiKey: string;
     openaiKey: string;
   };
+
+  @ApiProperty({
+    description: 'Subscription tier of the user',
+    enum: ['tier1', 'tier2', 'tier3'],
+    default: 'tier1',
+  })
+  @Prop({
+    type: String,
+    enum: ['tier1', 'tier2', 'tier3'],
+    default: 'tier1',
+    required: true,
+  })
+  tier: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

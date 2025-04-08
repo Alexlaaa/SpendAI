@@ -289,7 +289,12 @@ export class UserService {
   generateJWT(user: UserDocument): string {
     console.log('generateJWT user._id:', user._id);
     return jwt.sign(
-      { id: user._id, username: user.username, email: user.email },
+      {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        tier: user.tier, // Add tier to JWT payload
+      },
       this.configService.get('JWT_SECRET'),
       { expiresIn: '1h' },
     );

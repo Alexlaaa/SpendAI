@@ -2,9 +2,9 @@
 
 import React, { useState, useRef, ChangeEvent, useEffect } from 'react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
+import { Button2 } from '@/components/ui/button2';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Label2 } from '@/components/ui/label2';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Upload, Image as ImageIcon } from 'lucide-react';
 import { useReceipt } from '@/hooks/useReceipt';
@@ -280,14 +280,14 @@ const ReceiptImagePage: React.FC = () => {
                         <img src={preview} alt="Preview" className="max-w-full h-auto rounded-xl mb-4 border border-slate-200 shadow-sm" />
                         <div className="flex gap-3">
                             <label htmlFor="file-upload" className="cursor-pointer block flex-1">
-                                <Button variant="outline" className="w-full hover:bg-slate-100">
+                                <Button2 variant="outline" className="w-full hover:bg-slate-100">
                                     <ImageIcon className="mr-2 h-4 w-4" />
                                     Change Image
-                                </Button>
+                                </Button2>
                             </label>
-                            <Button onClick={handleUpload} disabled={!file || isUploading} className="flex-1 bg-slate-800 hover:bg-slate-700">
+                            <Button2 onClick={handleUpload} disabled={!file || isUploading} className="flex-1 bg-slate-800 hover:bg-slate-700">
                                 {isUploading ? 'Extracting...' : 'Extract Details'}
-                            </Button>
+                            </Button2>
                         </div>
                     </div>
                 )}
@@ -296,7 +296,7 @@ const ReceiptImagePage: React.FC = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="flex flex-col gap-2">
-                        <Label className="text-slate-700 font-medium">Merchant:</Label>
+                        <Label2 className="text-slate-700 font-medium">Merchant:</Label2>
                         <Input
                             value={receiptData.merchantName}
                             onChange={(e) => handleInputChange(e, 'merchantName')}
@@ -305,7 +305,7 @@ const ReceiptImagePage: React.FC = () => {
                         />
                     </div>
                     <div className="flex flex-col gap-2">
-                        <Label className="text-slate-700 font-medium">Date:</Label>
+                        <Label2 className="text-slate-700 font-medium">Date:</Label2>
                         <Input
                             type="date"
                             value={receiptData.date}
@@ -315,7 +315,7 @@ const ReceiptImagePage: React.FC = () => {
                         />
                     </div>
                     <div className="flex flex-col gap-2">
-                        <Label className="text-slate-700 font-medium">Cost:</Label>
+                        <Label2 className="text-slate-700 font-medium">Cost:</Label2>
                         <div className="flex_center gap-1">
                             <span className="font-medium text-lg text-slate-600">$</span>
                             <Input
@@ -330,7 +330,7 @@ const ReceiptImagePage: React.FC = () => {
                     </div>
     
                     <div className="flex flex-col gap-2">
-                        <Label className="text-slate-700 font-medium">Category:</Label>
+                        <Label2 className="text-slate-700 font-medium">Category:</Label2>
                         <Select value={receiptData.category} onValueChange={handleCategoryChange}>
                             <SelectTrigger className="bg-white border-slate-200 focus:border-slate-400 focus:ring-slate-400">
                                 <SelectValue placeholder="Select a category" />
@@ -347,13 +347,13 @@ const ReceiptImagePage: React.FC = () => {
                 </div>
     
                 <div className="flex flex-col gap-4 mt-8">
-                    <Label className="text-slate-700 font-medium text-lg">Items</Label>
+                    <Label2 className="text-slate-700 font-medium text-lg">Items</Label2>
                     {receiptData.itemizedList.map((item, index) => (
                         <div key={`receiptData_i${index}`} className="p-4 bg-white rounded-lg border border-slate-200 shadow-sm">
                         <div className="flex justify-between items-start gap-4">
                         <div className="flex-1">
                         <div className="space-y-1.5 mb-3">
-                            <Label className="text-slate-700 font-medium">Item:</Label>
+                            <Label2 className="text-slate-700 font-medium">Item:</Label2>
                             <Input
                                 value={item.itemName}
                                 onChange={(e) => handleItemizedListChange(index, 'itemName', e.target.value)}
@@ -363,7 +363,7 @@ const ReceiptImagePage: React.FC = () => {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-1.5">
-                                <Label className="text-slate-700 font-medium">Quantity:</Label>
+                                <Label2 className="text-slate-700 font-medium">Quantity:</Label2>
                                 <Input
                                     type="number"
                                     value={item.itemQuantity}
@@ -373,7 +373,7 @@ const ReceiptImagePage: React.FC = () => {
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <Label className="text-slate-700 font-medium">Unit Cost:</Label>
+                                <Label2 className="text-slate-700 font-medium">Unit Cost:</Label2>
                             <div className="flex_center gap-1">
                             <span className="font-medium text-lg text-slate-600">$</span>
                                 <Input
@@ -388,7 +388,7 @@ const ReceiptImagePage: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                            <Button 
+                            <Button2
                                 type="button" 
                                 onClick={() => handleRemoveItem(index)} 
                                 className="flex gap-2 bg-transparent hover:scale-110 hover:bg-transparent mt-1 transition-all duration-150"
@@ -399,20 +399,20 @@ const ReceiptImagePage: React.FC = () => {
                                     height={25}
                                     width={25}
                                 />
-                            </Button>
+                            </Button2>
                         </div>
                     </div>
                     ))}
                 </div>
                 <div className="flex flex-col gap-4 mt-6">
-                    <Button type="button" onClick={handleAddItem} variant="outline" 
-                        className="bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700">
+                    <Button2 type="button" onClick={handleAddItem} variant="outline"
+                             className="bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700">
                         + Add Item
-                    </Button>
-                    <Button type="submit" disabled={isConfirming} 
-                        className="w-full bg-slate-800 hover:bg-slate-700 text-white py-6">
+                    </Button2>
+                    <Button2 type="submit" disabled={isConfirming}
+                             className="w-full bg-slate-800 hover:bg-slate-700 text-white py-6">
                         {isConfirming ? 'Creating Receipt...' : 'Create Receipt'}
-                    </Button>
+                    </Button2>
                 </div>
             </form>
         </div>

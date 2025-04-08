@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Button2 } from "@/components/ui/button2"
 import { Input } from "@/components/ui/input"
 import { Calendar } from "@/components/ui/calendar"
 import {
@@ -109,7 +109,7 @@ export default function ManualReceiptForm() {
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <FormControl>
-                                        <Button
+                                        <Button2
                                             variant={"outline"}
                                             className={cn(
                                                 "w-[240px] pl-3 text-left font-normal",
@@ -122,7 +122,7 @@ export default function ManualReceiptForm() {
                                                 <span>Pick a date</span>
                                             )}
                                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                        </Button>
+                                        </Button2>
                                     </FormControl>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0" align="start">
@@ -178,7 +178,7 @@ export default function ManualReceiptForm() {
                 />
 
                 <div className="w-full mx-auto">
-                    <Button type="submit">Submit</Button>
+                    <Button2 type="submit">Submit</Button2>
                 </div>
             </form>
         </Form>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button2 } from "@/components/ui/button2";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -82,13 +82,13 @@ const Hero = () => {
                 className="flex items-center gap-2 sm:gap-4 justify-center mt-4 sm:mt-6 relative z-10"
             >
                 <Link href="/signin" passHref>
-                    <Button
+                    <Button2
                         variant="outline"
                         className="flex space-x-2 items-center group"
                     >
                         <span>Get Started</span>
                         <ArrowRight />
-                    </Button>
+                    </Button2>
                 </Link>
             </motion.div>
             <div

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button2 } from "@/components/ui/button2";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -13,7 +13,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CheckCircle2Icon, AlertTriangle, Key, Shield, Lock, Eye, EyeOff } from "lucide-react";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Label2 } from "@/components/ui/label2";
 
 const SettingsPage = () => {
   const { loading, error, tokenStatus, updateTokens, fetchTokenStatus } = useApiTokens();
@@ -106,10 +106,10 @@ const SettingsPage = () => {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="dropdownDefaultButton">Select your default Provider</Label>
+              <Label2 htmlFor="dropdownDefaultButton">Select your default Provider</Label2>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
+                  <Button2
                     ref={buttonRef}
                     id="dropdownDefaultButton"
                     variant="outline"
@@ -132,7 +132,7 @@ const SettingsPage = () => {
                         d="m1 1 4 4 4-4"
                       />
                     </svg>
-                  </Button>
+                  </Button2>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent style={{ width: dropdownWidth ? `${dropdownWidth}px` : "auto" }}>
                   <DropdownMenuItem onSelect={() => handleProviderChange("OPENAI")}>OpenAI</DropdownMenuItem>
@@ -142,7 +142,7 @@ const SettingsPage = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="geminiAPIKey">Gemini API Key</Label>
+              <Label2 htmlFor="geminiAPIKey">Gemini API Key</Label2>
               <div className="relative">
                 <Input
                   type={showGeminiKey ? "text" : "password"}
@@ -154,7 +154,7 @@ const SettingsPage = () => {
                   placeholder="Enter your new Gemini API Key"
                 />
                 <Key className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <Button
+                <Button2
                   type="button"
                   variant="ghost"
                   size="sm"
@@ -162,7 +162,7 @@ const SettingsPage = () => {
                   onClick={() => setShowGeminiKey(!showGeminiKey)}
                 >
                   {showGeminiKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </Button>
+                </Button2>
               </div>
               <p className="text-sm text-gray-500">
                 Status: {tokenStatus?.geminiKey === "SET" ? (
@@ -174,7 +174,7 @@ const SettingsPage = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="openaiAPIKey">OpenAI API Key</Label>
+              <Label2 htmlFor="openaiAPIKey">OpenAI API Key</Label2>
               <div className="relative">
                 <Input
                   type={showOpenAIKey ? "text" : "password"}
@@ -186,7 +186,7 @@ const SettingsPage = () => {
                   placeholder="Enter your new OpenAI API Key"
                 />
                 <Key className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <Button
+                <Button2
                   type="button"
                   variant="ghost"
                   size="sm"
@@ -194,7 +194,7 @@ const SettingsPage = () => {
                   onClick={() => setShowOpenAIKey(!showOpenAIKey)}
                 >
                   {showOpenAIKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </Button>
+                </Button2>
               </div>
               <p className="text-sm text-gray-500">
                 Status: {tokenStatus?.openaiKey === "SET" ? (
@@ -220,14 +220,14 @@ const SettingsPage = () => {
             )}
           </CardContent>
           <CardFooter>
-            <Button 
+            <Button2
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white"
               disabled={loading}
             >
               {loading ? "Saving..." : "Save Changes Securely"}
               <Lock className="ml-2 h-4 w-4" />
-            </Button>
+            </Button2>
           </CardFooter>
         </form>
       </Card>

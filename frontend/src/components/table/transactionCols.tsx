@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal, ArrowUpDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button2 } from "@/components/ui/button2"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,13 +41,13 @@ export const createColumns = (onEdit?: (receipt: ReceiptResponse) => void): Colu
     accessorKey: "date",
     header: ({ column }) => {
       return (
-        <Button
+        <Button2
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </Button2>
       )
     },
     cell: ({ row }) => {
@@ -97,10 +97,10 @@ export const createColumns = (onEdit?: (receipt: ReceiptResponse) => void): Colu
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button2 variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
               <MoreHorizontal className="h-4 w-4" />
-            </Button>
+            </Button2>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>

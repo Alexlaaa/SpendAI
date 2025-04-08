@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ReceiptResponse } from "@/components/table/transactionCols";
-import { Button } from "../ui/button";
+import { Button2 } from "../ui/button2";
 
 interface ChartDataPoint {
   monthYear: string;
@@ -86,38 +86,38 @@ export default function LineChartC({ data }: LineChartCProps): JSX.Element {
       </CardHeader>
       <CardContent>
         <div className="flex flex-wrap justify-start gap-2 mb-4 pb-2">
-          <Button
+          <Button2
             variant={timeRange === "2m" ? "default" : "outline"}
             onClick={() => setTimeRange("2m")}
             className="p-2 border border-gray-300 rounded w-full sm:w-auto"
             disabled={timeRange === "2m"}
           >
             Past 2 Months
-          </Button>
-          <Button
+          </Button2>
+          <Button2
             variant={timeRange === "3m" ? "default" : "outline"}
             onClick={() => setTimeRange("3m")}
             className="p-2 border border-gray-300 rounded w-full sm:w-auto"
             disabled={timeRange === "3m"}
           >
             Past 3 Months
-          </Button>
-          <Button
+          </Button2>
+          <Button2
             variant={timeRange === "6m" ? "default" : "outline"}
             onClick={() => setTimeRange("6m")}
             className="p-2 border border-gray-300 rounded w-full sm:w-auto"
             disabled={timeRange === "6m"}
           >
             Past 6 Months
-          </Button>
-          <Button
+          </Button2>
+          <Button2
             variant={timeRange === "1y" ? "default" : "outline"}
             onClick={() => setTimeRange("1y")}
             className="p-2 border border-gray-300 rounded w-full sm:w-auto"
             disabled={timeRange === "1y"}
           >
             Past 1 Year
-          </Button>
+          </Button2>
         </div>
 
         {chartData.length === 0 ? (

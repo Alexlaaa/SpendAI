@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { Button2 } from "@/components/ui/button2";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Label2 } from "@/components/ui/label2";
 import {
   Card,
   CardContent,
@@ -165,7 +165,7 @@ export default function ResetPasswordPage() {
             <form onSubmit={handleVerifyAnswer}>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label>{securityQuestion}</Label>
+                  <Label2>{securityQuestion}</Label2>
                   <Input
                     id="answer"
                     name="answer"
@@ -177,9 +177,9 @@ export default function ResetPasswordPage() {
                   />
                 </div>
               </div>
-              <Button type="submit" className="w-full mt-6" disabled={loading}>
+              <Button2 type="submit" className="w-full mt-6" disabled={loading}>
                 {loading ? "Verifying..." : "Submit Answer"}
-              </Button>
+              </Button2>
             </form>
           )}
 
@@ -187,7 +187,7 @@ export default function ResetPasswordPage() {
             <form onSubmit={handleResetPassword}>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="newPassword">New Password</Label>
+                  <Label2 htmlFor="newPassword">New Password</Label2>
                   <Input
                     id="newPassword"
                     name="newPassword"
@@ -200,9 +200,9 @@ export default function ResetPasswordPage() {
                   <PasswordRequirements validations={passwordValidations} />
                 </div>
               </div>
-              <Button type="submit" className="w-full mt-6" disabled={loading}>
+              <Button2 type="submit" className="w-full mt-6" disabled={loading}>
                 {loading ? "Resetting..." : "Reset Password"}
-              </Button>
+              </Button2>
             </form>
           )}
 
@@ -218,12 +218,12 @@ export default function ResetPasswordPage() {
               <p className="text-center text-sm text-muted-foreground">
                 Redirecting to sign-in page in 3 seconds...
               </p>
-              <Button
+              <Button2
                 className="w-full mt-6"
                 onClick={() => router.push("/signin")}
               >
                 Sign In Now
-              </Button>
+              </Button2>
             </div>
           )}
         </CardContent>

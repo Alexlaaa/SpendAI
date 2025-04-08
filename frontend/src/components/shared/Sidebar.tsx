@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { sideBarLinks } from '@/constants';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
+import { Button2 } from "@/components/ui/button2";
 import { Menu } from "lucide-react";
 import { useAuth } from '@/hooks/AuthProvider';
 
@@ -93,9 +93,9 @@ const Sidebar: React.FC = () => {
             {/* Mobile sidebar */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
-                    <Button variant="outline" size="icon" className="fixed top-4 left-4 z-40 lg:hidden">
+                    <Button2 variant="outline" size="icon" className="fixed top-4 left-4 z-40 lg:hidden">
                         <Menu className="h-4 w-4" />
-                    </Button>
+                    </Button2>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-64 h-full p-0">
                     <SidebarContent />

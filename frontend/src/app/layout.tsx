@@ -8,8 +8,8 @@ import { AuthProvider } from "@/hooks/AuthProvider"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SC3040",
-  description: "Ultimate Students' Companion",
+  title: "SpendAI",
+  description: "Your personalised financial companion",
 };
 
 export default function RootLayout({

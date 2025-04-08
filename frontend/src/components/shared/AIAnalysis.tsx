@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button2 } from "@/components/ui/button2";
 import { Loader2 } from "lucide-react";
 import { useAIPrompt } from '@/hooks/useAIPrompt';
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -69,7 +69,7 @@ const AIAnalysis: React.FC = () => {
                             className="flex-grow"
                             required
                         />
-                        <Button type="submit" disabled={loading || !userPrompt || isTyping}>
+                        <Button2 type="submit" disabled={loading || !userPrompt || isTyping}>
                             {loading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -78,7 +78,7 @@ const AIAnalysis: React.FC = () => {
                             ) : (
                                 'Ask AI ✨'
                             )}
-                        </Button>
+                        </Button2>
                     </div>
                 </form>
             </CardContent>

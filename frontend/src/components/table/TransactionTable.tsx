@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
-import { Button } from "@/components/ui/button"
+import { Button2 } from "@/components/ui/button2"
 import { Input } from "@/components/ui/input"
 
 import {
@@ -189,7 +189,7 @@ export default function DataTable<TData, TValue>({
             {table.getPageCount()}
           </div>
           <div className="flex items-center space-x-2">
-            <Button
+            <Button2
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
               onClick={() => table.setPageIndex(0)}
@@ -197,8 +197,8 @@ export default function DataTable<TData, TValue>({
             >
               <span className="sr-only">Go to first page</span>
               <DoubleArrowLeftIcon className="h-4 w-4" />
-            </Button>
-            <Button
+            </Button2>
+            <Button2
               variant="outline"
               className="h-8 w-8 p-0"
               onClick={() => table.previousPage()}
@@ -206,8 +206,8 @@ export default function DataTable<TData, TValue>({
             >
               <span className="sr-only">Go to previous page</span>
               <ChevronLeftIcon className="h-4 w-4" />
-            </Button>
-            <Button
+            </Button2>
+            <Button2
               variant="outline"
               className="h-8 w-8 p-0"
               onClick={() => table.nextPage()}
@@ -215,8 +215,8 @@ export default function DataTable<TData, TValue>({
             >
               <span className="sr-only">Go to next page</span>
               <ChevronRightIcon className="h-4 w-4" />
-            </Button>
-            <Button
+            </Button2>
+            <Button2
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}
@@ -224,7 +224,7 @@ export default function DataTable<TData, TValue>({
             >
               <span className="sr-only">Go to last page</span>
               <DoubleArrowRightIcon className="h-4 w-4" />
-            </Button>
+            </Button2>
           </div>
         </div>
       </div>

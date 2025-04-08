@@ -9,9 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Button } from "@/components/ui/button";
+import { Button2 } from "@/components/ui/button2";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Label2 } from "@/components/ui/label2";
 import { ReceiptResponse, Category } from "@/components/table/transactionCols";
 
 interface EditReceiptPopupProps {
@@ -46,9 +46,9 @@ export function EditReceiptPopup({ receipt, isOpen, onClose, onSave }: EditRecei
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="merchantName" className="text-right">
+            <Label2 htmlFor="merchantName" className="text-right">
               Merchant
-            </Label>
+            </Label2>
             <Input
               id="merchantName"
               name="merchantName"
@@ -58,9 +58,9 @@ export function EditReceiptPopup({ receipt, isOpen, onClose, onSave }: EditRecei
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="date" className="text-right">
+            <Label2 htmlFor="date" className="text-right">
               Date
-            </Label>
+            </Label2>
             <Input
               id="date"
               name="date"
@@ -71,9 +71,9 @@ export function EditReceiptPopup({ receipt, isOpen, onClose, onSave }: EditRecei
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="totalCost" className="text-right">
+            <Label2 htmlFor="totalCost" className="text-right">
               Total Cost
-            </Label>
+            </Label2>
             <Input
               id="totalCost"
               name="totalCost"
@@ -84,9 +84,9 @@ export function EditReceiptPopup({ receipt, isOpen, onClose, onSave }: EditRecei
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="category" className="text-right">
+            <Label2 htmlFor="category" className="text-right">
               Category
-            </Label>
+            </Label2>
             <Select
               onValueChange={handleCategoryChange}
               defaultValue={editedReceipt.category}
@@ -107,12 +107,12 @@ export function EditReceiptPopup({ receipt, isOpen, onClose, onSave }: EditRecei
           </div>
         </div>
         <DialogFooter>
-          <Button type="button" variant="secondary" onClick={onClose}>
+          <Button2 type="button" variant="secondary" onClick={onClose}>
             Cancel
-          </Button>
-          <Button type="button" onClick={handleSave}>
+          </Button2>
+          <Button2 type="button" onClick={handleSave}>
             Save Changes
-          </Button>
+          </Button2>
         </DialogFooter>
       </DialogContent>
     </Dialog>
