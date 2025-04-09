@@ -18,7 +18,8 @@
   "__v": 0,
   "apiToken": {
     "defaultModel": "GEMINI",
-    "geminiKey": "b05b1f54b06603d626e62ff3f869ea69:5c5a54c4cbca65439916cd60e62c0927902c1617851ddaad01dde03199e5fb47619320874d9f2b"
+    "geminiKey": "81fe917a7deb6777f081de0365a21032:e81d9fa0c3f5cba4a5caaeea8f91650177f22da7aa087deb4cb49a253169723acf14ea7e5a2be4"
   },
-  "tier": "tier3"
+  "tier": "tier3",
+  "billingCycle": "annual"
 }]
