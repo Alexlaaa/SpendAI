@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum } from 'class-validator';
-import { Tier } from '../../shared/guards/tier.guard'; // Assuming Tier type is defined here
+// Add IsOptional
+import { IsEnum, IsOptional } from 'class-validator';
+import { Tier } from '../../shared/guards/tier.guard';
 
 export class UpdateUserTierDto {
   @ApiProperty({
@@ -11,4 +12,15 @@ export class UpdateUserTierDto {
   })
   @IsEnum(['tier1', 'tier2', 'tier3'], { message: 'Invalid tier value' })
   readonly tier: Tier;
+
+  @ApiProperty({
+    description:
+      'The new billing cycle for the subscription (optional, defaults based on tier logic if not provided)',
+    enum: ['monthly', 'annual'],
+    example: 'annual',
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(['monthly', 'annual'], { message: 'Invalid billing cycle value' })
+  readonly billingCycle?: 'monthly' | 'annual';
 }

@@ -4,14 +4,16 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { signIn, signUp, signOut, getLoggedInUser } from '@/app/api/auth/route';
 import { useRouter } from 'next/navigation';
 
-type User = {
+// Export the User type
+export type User = {
   id: string;
   username: string;
   email: string;
   firstName: string;
   lastName: string;
   image: string;
-  tier: 'tier1' | 'tier2' | 'tier3'; // Add tier property
+  tier: 'tier1' | 'tier2' | 'tier3';
+  billingCycle?: 'monthly' | 'annual'; // Add optional billingCycle property (assuming backend provides it)
 }
 
 type SignInUser = {
@@ -35,6 +37,7 @@ type AuthContextType = {
   signIn: (data: SignInUser) => Promise<void>;
   signUp: (data: SignUpUser) => Promise<void>;
   signOut: () => Promise<void>;
+  refreshUser: () => Promise<void>; // Add refreshUser function type
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -50,22 +53,31 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const [user, setUser] = useState<User | undefined>(undefined);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Start loading true until initial fetch completes
   const router = useRouter();
 
-  useEffect(()=> {
-
-    const getUserDetails = async () => {
-      const result = await getLoggedInUser()
-      console.log("[AuthProvider] triggered user details with result:", result)
-
-      if (result?.success && result.data) { // Ensure data exists
-        setUser(result.data) // Assuming result.data now includes the tier
+  // Function to fetch and set user details
+  const fetchUserDetails = async () => {
+    setLoading(true); // Set loading true when fetching
+    try {
+      const result = await getLoggedInUser();
+      console.log("[AuthProvider] fetchUserDetails result:", result);
+      if (result?.success && result.data) {
+        setUser(result.data);
+      } else {
+        // If fetching fails (e.g., no token), ensure user is undefined
+        setUser(undefined);
       }
-
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      setUser(undefined); // Clear user on error
+    } finally {
+      setLoading(false); // Set loading false after fetch attempt
     }
+  };
 
-    getUserDetails()
+  useEffect(()=> {
+    fetchUserDetails(); // Initial fetch on mount
 
 
   }, [])
@@ -128,6 +140,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signIn: handleSignIn,
     signUp: handleSignUp,
     signOut: handleSignOut,
+    refreshUser: fetchUserDetails, // Expose the fetch function
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

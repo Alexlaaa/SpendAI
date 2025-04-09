@@ -119,7 +119,11 @@ export class UserController {
     @Body() updateUserTierDto: UpdateUserTierDto,
   ): Promise<UserResponseDto> {
     this.logger.log('Extracted user ID from decorator:', userId);
-    return this.userService.updateTier(userId, updateUserTierDto.tier);
+    return this.userService.updateTier(
+      userId,
+      updateUserTierDto.tier,
+      updateUserTierDto.billingCycle,
+    );
   }
 
   @Get()

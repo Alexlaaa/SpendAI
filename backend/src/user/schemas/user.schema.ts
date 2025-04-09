@@ -74,6 +74,19 @@ export class User {
     required: true,
   })
   tier: string;
+
+  @ApiProperty({
+    description: 'Billing cycle for the subscription',
+    enum: ['monthly', 'annual'],
+    required: false,
+    default: 'monthly',
+  })
+  @Prop({
+    type: String,
+    enum: ['monthly', 'annual'],
+    default: 'monthly', // Default to monthly if not specified
+  })
+  billingCycle?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -197,17 +197,33 @@ export class UserService {
     return user;
   }
 
-  // Update user tier
+  // Update user tier and optionally billing cycle
   @TrackErrors
-  async updateTier(userId: string, newTier: string): Promise<UserResponseDto> {
+  async updateTier(
+    userId: string,
+    newTier: string,
+    newBillingCycle?: 'monthly' | 'annual',
+  ): Promise<UserResponseDto> {
     const user = await this.userModel.findById(userId);
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    // Directly update the tier field
+    // Update the tier field
     user.tier = newTier;
 
+    // Update billing cycle only if provided
+    if (newBillingCycle) {
+      user.billingCycle = newBillingCycle;
+    } else {
+      if (newTier === 'tier1') {
+        user.billingCycle = undefined;
+      } else if (!user.billingCycle) {
+        // If moving to a paid ier and no cycle exists, default to monthly
+        user.billingCycle = 'monthly';
+      }
+      // If moving between paid tiers and no cycle is provided, keep the existing one.
+    }
     // Save the updated user
     await user.save();
 
@@ -311,7 +327,8 @@ export class UserService {
         id: user._id,
         username: user.username,
         email: user.email,
-        tier: user.tier, // Add tier to JWT payload
+        tier: user.tier,
+        billingCycle: user.billingCycle,
       },
       this.configService.get('JWT_SECRET'),
       { expiresIn: '1h' },
@@ -332,6 +349,7 @@ export class UserService {
       image: userObject.image ? userObject.image.toString('base64') : '',
       securityQuestion: userObject.securityQuestion,
       tier: userObject.tier,
+      billingCycle: userObject.billingCycle,
     };
   }
 

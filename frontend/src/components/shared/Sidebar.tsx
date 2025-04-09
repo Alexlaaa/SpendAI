@@ -71,7 +71,7 @@ const Sidebar: React.FC = () => {
                   : "bg-green-100 text-green-700" // Default to Tier 1 style
               }`}
             >
-              {`Tier ${user.tier.replace("tier", "")}`}
+              {`Tier ${user.tier.replace("tier", "")}${user.billingCycle ? ` - ${user.billingCycle.charAt(0).toUpperCase() + user.billingCycle.slice(1)}` : ''}`}
             </span>
           </div>
         )}

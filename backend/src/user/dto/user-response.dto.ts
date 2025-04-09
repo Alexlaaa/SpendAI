@@ -35,4 +35,12 @@ export class UserResponseDto {
     example: 'tier1',
   })
   readonly tier: string;
+
+  @ApiProperty({
+    description: 'Billing cycle for the subscription',
+    enum: ['monthly', 'annual'],
+    required: false,
+    example: 'monthly',
+  })
+  readonly billingCycle?: string;
 }
