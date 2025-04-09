@@ -7,3 +7,4 @@ export { ResetPasswordDto } from './reset-password.dto';
 export { RequestPasswordResetDto } from './request-password-reset.dto';
 export { UpdateApiTokenDto } from './update-api-token.dto';
 export { ApiTokenResponseDto } from './api-token-response.dto';
+export { UpdateUserTierDto } from './update-user-tier.dto';

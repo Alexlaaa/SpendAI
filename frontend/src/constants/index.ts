@@ -66,8 +66,8 @@ export const sideBarLinks = [
 export const pricingPlans = [
   {
     name: "Tier 1",
-    price: "5",
-    yearlyPrice: "48",
+    price: "0",
+    yearlyPrice: "0",
     period: "month",
     features: ["Budget Setting", "Basic Analytics", "Receipt Upload"],
     description: "Essential tools for managing your finances.",

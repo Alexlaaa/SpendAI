@@ -19,5 +19,6 @@
   "apiToken": {
     "defaultModel": "GEMINI",
     "geminiKey": "b05b1f54b06603d626e62ff3f869ea69:5c5a54c4cbca65439916cd60e62c0927902c1617851ddaad01dde03199e5fb47619320874d9f2b"
-  }
+  },
+  "tier": "tier3"
 }]

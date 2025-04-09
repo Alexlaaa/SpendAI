@@ -12,6 +12,7 @@ import {
   Res,
   Req,
   Query,
+  Patch,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
@@ -24,6 +25,7 @@ import {
   ResetPasswordDto,
   UpdateApiTokenDto,
   ApiTokenResponseDto,
+  UpdateUserTierDto,
 } from './dto';
 import { ValidationPipe } from '../shared/pipes/validation.pipe';
 import { User } from './user.decorator';
@@ -99,6 +101,25 @@ export class UserController {
   ): Promise<UserResponseDto> {
     updateUserDto.image = image || null;
     return this.userService.update(userId, updateUserDto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @Patch('tier')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Update current logged in user subscription tier' })
+  @ApiResponse({
+    status: 200,
+    description: 'User tier successfully updated.',
+    type: UserResponseDto,
+  })
+  @ApiResponse({ status: 400, description: 'Invalid tier value provided.' })
+  @ApiResponse({ status: 404, description: 'User not found.' })
+  async updateUserTier(
+    @User('_id') userId: string,
+    @Body() updateUserTierDto: UpdateUserTierDto,
+  ): Promise<UserResponseDto> {
+    this.logger.log('Extracted user ID from decorator:', userId);
+    return this.userService.updateTier(userId, updateUserTierDto.tier);
   }
 
   @Get()

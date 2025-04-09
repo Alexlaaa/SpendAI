@@ -197,6 +197,24 @@ export class UserService {
     return user;
   }
 
+  // Update user tier
+  @TrackErrors
+  async updateTier(userId: string, newTier: string): Promise<UserResponseDto> {
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    // Directly update the tier field
+    user.tier = newTier;
+
+    // Save the updated user
+    await user.save();
+
+    // Return the updated user details using the existing response builder
+    return this.buildUserResponse(user);
+  }
+
   // Update API tokens
   @TrackErrors
   async updateApiToken(

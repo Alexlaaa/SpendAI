@@ -80,6 +80,7 @@ export class AppModule implements NestModule {
       .forRoutes(
         { path: 'users*', method: RequestMethod.GET },
         { path: 'users*', method: RequestMethod.PUT },
+        { path: 'users*', method: RequestMethod.PATCH },
         { path: '/receipts', method: RequestMethod.ALL },
         { path: '/receipts/*', method: RequestMethod.ALL },
       );
