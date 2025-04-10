@@ -7,11 +7,12 @@ import {
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { ReceiptModule } from './receipt/receipt.module';
+import { BudgetModule } from './budget/budget.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MetricsModule } from './metrics/metrics.module';
 import { ReporterModule } from './reporter/reporter.module';
 import { RequestTimingMiddleware } from './metrics/request-timing.middleware';
-import { ErrorTrackingMiddleware } from './metrics/error-tracking.middleware'; // Import the middleware
+import { ErrorTrackingMiddleware } from './metrics/error-tracking.middleware';
 import { RequestConcurrencyMiddleware } from './metrics/request-concurrency.middleware';
 import { DecryptMiddleware } from './shared/middleware/decrypt.middleware';
 import { AuthMiddleware } from './user/auth.middleware';
@@ -33,6 +34,7 @@ import { AuthMiddleware } from './user/auth.middleware';
 
     UserModule,
     ReceiptModule,
+    BudgetModule,
     MetricsModule,
     ReporterModule,
   ],
@@ -83,6 +85,8 @@ export class AppModule implements NestModule {
         { path: 'users*', method: RequestMethod.PATCH },
         { path: '/receipts', method: RequestMethod.ALL },
         { path: '/receipts/*', method: RequestMethod.ALL },
+        { path: '/budgets', method: RequestMethod.ALL },
+        { path: '/budgets/*', method: RequestMethod.ALL },
       );
   }
 }
