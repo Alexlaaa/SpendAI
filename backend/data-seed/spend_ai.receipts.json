@@ -1,11 +1,530 @@
-[
-  {
+[{
+  "_id": {
+    "$oid": "66f0dd97215878502e608e77"
+  },
+  "merchantName": "Grab",
+  "date": {
+    "$date": "2024-12-23T00:00:00.000Z"
+  },
+  "totalCost": 15,
+  "category": "Transport",
+  "itemizedList": [
+    {
+      "itemName": "Ride to Work",
+      "itemQuantity": 1,
+      "itemCost": 15
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0daffeada3ce65897f5be"
+  },
+  "merchantName": "HEN AND CHICKEN",
+  "date": {
+    "$date": "2024-11-22T00:00:00.000Z"
+  },
+  "totalCost": 10,
+  "category": "Food",
+  "itemizedList": [
+    {
+      "itemName": "Porky Burger",
+      "itemQuantity": 1,
+      "itemCost": 8
+    },
+    {
+      "itemName": "House",
+      "itemQuantity": 1,
+      "itemCost": 2
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0de71215878502e608e8f"
+  },
+  "merchantName": "Uniqlo",
+  "date": {
+    "$date": "2025-02-01T00:00:00.000Z"
+  },
+  "totalCost": 150,
+  "category": "Clothing",
+  "itemizedList": [
+    {
+      "itemName": "Winter Jacket",
+      "itemQuantity": 1,
+      "itemCost": 150
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0de63215878502e608e8c"
+  },
+  "merchantName": "H&M",
+  "date": {
+    "$date": "2025-01-30T00:00:00.000Z"
+  },
+  "totalCost": 90,
+  "category": "Clothing",
+  "itemizedList": [
+    {
+      "itemName": "Black Casual T-shirt",
+      "itemQuantity": 1,
+      "itemCost": 25
+    },
+    {
+      "itemName": "Blue Loose-fit Denim Jeans",
+      "itemQuantity": 1,
+      "itemCost": 65
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0de82215878502e608e92"
+  },
+  "merchantName": "Levi's",
+  "date": {
+    "$date": "2025-02-02T00:00:00.000Z"
+  },
+  "totalCost": 150,
+  "category": "Clothing",
+  "itemizedList": [
+    {
+      "itemName": "Loose Denim Jeans",
+      "itemQuantity": 1,
+      "itemCost": 150
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0ddb5215878502e608e7a"
+  },
+  "merchantName": "Shell Gas Station",
+  "date": {
+    "$date": "2024-12-24T00:00:00.000Z"
+  },
+  "totalCost": 120,
+  "category": "Transport",
+  "itemizedList": [
+    {
+      "itemName": "Fuel",
+      "itemQuantity": 1,
+      "itemCost": 120
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0de9d215878502e608e9b"
+  },
+  "merchantName": "Dental Clinic",
+  "date": {
+    "$date": "2025-02-05T00:00:00.000Z"
+  },
+  "totalCost": 300,
+  "category": "Healthcare",
+  "itemizedList": [
+    {
+      "itemName": "Teeth Cleaning",
+      "itemQuantity": 1,
+      "itemCost": 300
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0dde4215878502e608e83"
+  },
+  "merchantName": "Taxi Service",
+  "date": {
+    "$date": "2025-01-27T00:00:00.000Z"
+  },
+  "totalCost": 25,
+  "category": "Transport",
+  "itemizedList": [
+    {
+      "itemName": "Taxi Ride",
+      "itemQuantity": 1,
+      "itemCost": 25
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0de8f215878502e608e95"
+  },
+  "merchantName": "Guardian",
+  "date": {
+    "$date": "2025-02-03T00:00:00.000Z"
+  },
+  "totalCost": 15,
+  "category": "Healthcare",
+  "itemizedList": [
+    {
+      "itemName": "Painkillers",
+      "itemQuantity": 1,
+      "itemCost": 15
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e274215878502e608e9e"
+  },
+  "merchantName": "Raffles Medical",
+  "date": {
+    "$date": "2025-02-07T00:00:00.000Z"
+  },
+  "totalCost": 30,
+  "category": "Healthcare",
+  "itemizedList": [
+    {
+      "itemName": "Amoxicillin",
+      "itemQuantity": 1,
+      "itemCost": 30
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e28f215878502e608ea7"
+  },
+  "merchantName": "Pizza Hut",
+  "date": {
+    "$date": "2025-02-15T00:00:00.000Z"
+  },
+  "totalCost": 35,
+  "category": "Food",
+  "itemizedList": [
+    {
+      "itemName": "Large Pepperoni Pizza",
+      "itemQuantity": 1,
+      "itemCost": 35
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0de98215878502e608e98"
+  },
+  "merchantName": "Optical Store",
+  "date": {
+    "$date": "2025-02-04T00:00:00.000Z"
+  },
+  "totalCost": 200,
+  "category": "Healthcare",
+  "itemizedList": [
+    {
+      "itemName": "Prescription Glasses",
+      "itemQuantity": 1,
+      "itemCost": 200
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e2a0215878502e608eaa"
+  },
+  "merchantName": "Starbucks",
+  "date": {
+    "$date": "2025-02-18T00:00:00.000Z"
+  },
+  "totalCost": 15,
+  "category": "Food",
+  "itemizedList": [
+    {
+      "itemName": "Coffee & Bagel Set",
+      "itemQuantity": 1,
+      "itemCost": 15
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e28a215878502e608ea4"
+  },
+  "merchantName": "McDonald's",
+  "date": {
+    "$date": "2025-02-10T00:00:00.000Z"
+  },
+  "totalCost": 12,
+  "category": "Food",
+  "itemizedList": [
+    {
+      "itemName": "Big Mac Meal",
+      "itemQuantity": 1,
+      "itemCost": 12
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0da74eada3ce65897f5b8"
+  },
+  "merchantName": "JOSE CHIQUITO RESTAURANT",
+  "date": {
+    "$date": "2024-11-22T00:00:00.000Z"
+  },
+  "totalCost": 58,
+  "category": "Food",
+  "itemizedList": [
+    {
+      "itemName": "French Toast",
+      "itemQuantity": 1,
+      "itemCost": 11
+    },
+    {
+      "itemName": "Open Food",
+      "itemQuantity": 1,
+      "itemCost": 3
+    },
+    {
+      "itemName": "French Toast",
+      "itemQuantity": 1,
+      "itemCost": 11
+    },
+    {
+      "itemName": "Open Food",
+      "itemQuantity": 1,
+      "itemCost": 3
+    },
+    {
+      "itemName": "Huevos A La Ranchera",
+      "itemQuantity": 1,
+      "itemCost": 11
+    },
+    {
+      "itemName": "Open Food",
+      "itemQuantity": 1,
+      "itemCost": 2
+    },
+    {
+      "itemName": "Open Beverage",
+      "itemQuantity": 1,
+      "itemCost": 8
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e2a5215878502e608ead"
+  },
+  "merchantName": "Subway",
+  "date": {
+    "$date": "2025-02-22T00:00:00.000Z"
+  },
+  "totalCost": 15,
+  "category": "Food",
+  "itemizedList": [
+    {
+      "itemName": "Footlong Sub",
+      "itemQuantity": 1,
+      "itemCost": 15
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e285215878502e608ea1"
+  },
+  "merchantName": "KFC",
+  "date": {
+    "$date": "2025-02-08T00:00:00.000Z"
+  },
+  "totalCost": 25,
+  "category": "Food",
+  "itemizedList": [
+    {
+      "itemName": "Chicken Bucket",
+      "itemQuantity": 1,
+      "itemCost": 25
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e2f7215878502e608eb9"
+  },
+  "merchantName": "Universal Studios Singapore",
+  "date": {
+    "$date": "2025-02-25T00:00:00.000Z"
+  },
+  "totalCost": 150,
+  "category": "Leisure",
+  "itemizedList": [
+    {
+      "itemName": "Park Admission",
+      "itemQuantity": 2,
+      "itemCost": 150
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e2bd215878502e608eb6"
+  },
+  "merchantName": "Sistic",
+  "date": {
+    "$date": "2025-02-20T00:00:00.000Z"
+  },
+  "totalCost": 100,
+  "category": "Leisure",
+  "itemizedList": [
+    {
+      "itemName": "Concert Tickets",
+      "itemQuantity": 2,
+      "itemCost": 100
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e324215878502e608ebc"
+  },
+  "merchantName": "KF1 Karting",
+  "date": {
+    "$date": "2025-02-28T00:00:00.000Z"
+  },
+  "totalCost": 60,
+  "category": "Leisure",
+  "itemizedList": [
+    {
+      "itemName": "Round of Go Kart",
+      "itemQuantity": 1,
+      "itemCost": 60
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0dddb215878502e608e80"
+  },
+  "merchantName": "Bike Rental",
+  "date": {
+    "$date": "2025-01-26T00:00:00.000Z"
+  },
+  "totalCost": 10,
+  "category": "Transport",
+  "itemizedList": [
+    {
+      "itemName": "Daily Bike Rental",
+      "itemQuantity": 1,
+      "itemCost": 10
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0ddf6215878502e608e86"
+  },
+  "merchantName": "Zara",
+  "date": {
+    "$date": "2025-01-28T00:00:00.000Z"
+  },
+  "totalCost": 120,
+  "category": "Clothing",
+  "itemizedList": [
+    {
+      "itemName": "Summer Dress",
+      "itemQuantity": 1,
+      "itemCost": 120
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e2b9215878502e608eb3"
+  },
+  "merchantName": "Orchird Country Club Bowling Alley",
+  "date": {
+    "$date": "2025-02-14T00:00:00.000Z"
+  },
+  "totalCost": 40,
+  "category": "Leisure",
+  "itemizedList": [
+    {
+      "itemName": "Bowling Session",
+      "itemQuantity": 4,
+      "itemCost": 40
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0ddbc215878502e608e7d"
+  },
+  "merchantName": "Train Service",
+  "date": {
+    "$date": "2025-01-25T00:00:00.000Z"
+  },
+  "totalCost": 50,
+  "category": "Transport",
+  "itemizedList": [
+    {
+      "itemName": "Monthly Train Pass",
+      "itemQuantity": 1,
+      "itemCost": 50
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
   "_id": {
     "$oid": "66f0da42eada3ce65897f5b3"
   },
   "merchantName": "Osteria 177",
   "date": {
-    "$date": "2024-07-21T00:00:00.000Z"
+    "$date": "2024-11-21T00:00:00.000Z"
   },
   "totalCost": 633,
   "category": "Food",
@@ -76,206 +595,11 @@
 },
 {
   "_id": {
-    "$oid": "66f0da74eada3ce65897f5b8"
-  },
-  "merchantName": "JOSE CHIQUITO RESTAURANT",
-  "date": {
-    "$date": "2024-07-22T00:00:00.000Z"
-  },
-  "totalCost": 58,
-  "category": "Food",
-  "itemizedList": [
-    {
-      "itemName": "French Toast",
-      "itemQuantity": 1,
-      "itemCost": 11
-    },
-    {
-      "itemName": "Open Food",
-      "itemQuantity": 1,
-      "itemCost": 3
-    },
-    {
-      "itemName": "French Toast",
-      "itemQuantity": 1,
-      "itemCost": 11
-    },
-    {
-      "itemName": "Open Food",
-      "itemQuantity": 1,
-      "itemCost": 3
-    },
-    {
-      "itemName": "Huevos A La Ranchera",
-      "itemQuantity": 1,
-      "itemCost": 11
-    },
-    {
-      "itemName": "Open Food",
-      "itemQuantity": 1,
-      "itemCost": 2
-    },
-    {
-      "itemName": "Open Beverage",
-      "itemQuantity": 1,
-      "itemCost": 8
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0daffeada3ce65897f5be"
-  },
-  "merchantName": "HEN AND CHICKEN",
-  "date": {
-    "$date": "2024-07-22T00:00:00.000Z"
-  },
-  "totalCost": 10,
-  "category": "Food",
-  "itemizedList": [
-    {
-      "itemName": "Porky Burger",
-      "itemQuantity": 1,
-      "itemCost": 8
-    },
-    {
-      "itemName": "House",
-      "itemQuantity": 1,
-      "itemCost": 2
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0dd97215878502e608e77"
-  },
-  "merchantName": "Grab",
-  "date": {
-    "$date": "2024-08-23T00:00:00.000Z"
-  },
-  "totalCost": 15,
-  "category": "Transport",
-  "itemizedList": [
-    {
-      "itemName": "Ride to Work",
-      "itemQuantity": 1,
-      "itemCost": 15
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0ddb5215878502e608e7a"
-  },
-  "merchantName": "Shell Gas Station",
-  "date": {
-    "$date": "2024-08-24T00:00:00.000Z"
-  },
-  "totalCost": 120,
-  "category": "Transport",
-  "itemizedList": [
-    {
-      "itemName": "Fuel",
-      "itemQuantity": 1,
-      "itemCost": 120
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0ddbc215878502e608e7d"
-  },
-  "merchantName": "Train Service",
-  "date": {
-    "$date": "2024-09-25T00:00:00.000Z"
-  },
-  "totalCost": 50,
-  "category": "Transport",
-  "itemizedList": [
-    {
-      "itemName": "Monthly Train Pass",
-      "itemQuantity": 1,
-      "itemCost": 50
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0dddb215878502e608e80"
-  },
-  "merchantName": "Bike Rental",
-  "date": {
-    "$date": "2024-09-26T00:00:00.000Z"
-  },
-  "totalCost": 10,
-  "category": "Transport",
-  "itemizedList": [
-    {
-      "itemName": "Daily Bike Rental",
-      "itemQuantity": 1,
-      "itemCost": 10
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0dde4215878502e608e83"
-  },
-  "merchantName": "Taxi Service",
-  "date": {
-    "$date": "2024-09-27T00:00:00.000Z"
-  },
-  "totalCost": 25,
-  "category": "Transport",
-  "itemizedList": [
-    {
-      "itemName": "Taxi Ride",
-      "itemQuantity": 1,
-      "itemCost": 25
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0ddf6215878502e608e86"
-  },
-  "merchantName": "Zara",
-  "date": {
-    "$date": "2024-09-28T00:00:00.000Z"
-  },
-  "totalCost": 120,
-  "category": "Clothing",
-  "itemizedList": [
-    {
-      "itemName": "Summer Dress",
-      "itemQuantity": 1,
-      "itemCost": 120
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
     "$oid": "66f0de00215878502e608e89"
   },
   "merchantName": "Nike",
   "date": {
-    "$date": "2024-09-29T00:00:00.000Z"
+    "$date": "2025-01-29T00:00:00.000Z"
   },
   "totalCost": 80,
   "category": "Clothing",
@@ -291,256 +615,11 @@
 },
 {
   "_id": {
-    "$oid": "66f0de63215878502e608e8c"
-  },
-  "merchantName": "H&M",
-  "date": {
-    "$date": "2024-09-30T00:00:00.000Z"
-  },
-  "totalCost": 90,
-  "category": "Clothing",
-  "itemizedList": [
-    {
-      "itemName": "Black Casual T-shirt",
-      "itemQuantity": 1,
-      "itemCost": 25
-    },
-    {
-      "itemName": "Blue Loose-fit Denim Jeans",
-      "itemQuantity": 1,
-      "itemCost": 65
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0de71215878502e608e8f"
-  },
-  "merchantName": "Uniqlo",
-  "date": {
-    "$date": "2024-10-01T00:00:00.000Z"
-  },
-  "totalCost": 150,
-  "category": "Clothing",
-  "itemizedList": [
-    {
-      "itemName": "Winter Jacket",
-      "itemQuantity": 1,
-      "itemCost": 150
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0de82215878502e608e92"
-  },
-  "merchantName": "Levi's",
-  "date": {
-    "$date": "2024-10-02T00:00:00.000Z"
-  },
-  "totalCost": 150,
-  "category": "Clothing",
-  "itemizedList": [
-    {
-      "itemName": "Loose Denim Jeans",
-      "itemQuantity": 1,
-      "itemCost": 150
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0de8f215878502e608e95"
-  },
-  "merchantName": "Guardian",
-  "date": {
-    "$date": "2024-10-03T00:00:00.000Z"
-  },
-  "totalCost": 15,
-  "category": "Healthcare",
-  "itemizedList": [
-    {
-      "itemName": "Painkillers",
-      "itemQuantity": 1,
-      "itemCost": 15
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0de98215878502e608e98"
-  },
-  "merchantName": "Optical Store",
-  "date": {
-    "$date": "2024-10-04T00:00:00.000Z"
-  },
-  "totalCost": 200,
-  "category": "Healthcare",
-  "itemizedList": [
-    {
-      "itemName": "Prescription Glasses",
-      "itemQuantity": 1,
-      "itemCost": 200
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0de9d215878502e608e9b"
-  },
-  "merchantName": "Dental Clinic",
-  "date": {
-    "$date": "2024-10-05T00:00:00.000Z"
-  },
-  "totalCost": 300,
-  "category": "Healthcare",
-  "itemizedList": [
-    {
-      "itemName": "Teeth Cleaning",
-      "itemQuantity": 1,
-      "itemCost": 300
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e274215878502e608e9e"
-  },
-  "merchantName": "Raffles Medical",
-  "date": {
-    "$date": "2024-10-07T00:00:00.000Z"
-  },
-  "totalCost": 30,
-  "category": "Healthcare",
-  "itemizedList": [
-    {
-      "itemName": "Amoxicillin",
-      "itemQuantity": 1,
-      "itemCost": 30
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e285215878502e608ea1"
-  },
-  "merchantName": "KFC",
-  "date": {
-    "$date": "2024-10-08T00:00:00.000Z"
-  },
-  "totalCost": 25,
-  "category": "Food",
-  "itemizedList": [
-    {
-      "itemName": "Chicken Bucket",
-      "itemQuantity": 1,
-      "itemCost": 25
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e28a215878502e608ea4"
-  },
-  "merchantName": "McDonald's",
-  "date": {
-    "$date": "2024-10-10T00:00:00.000Z"
-  },
-  "totalCost": 12,
-  "category": "Food",
-  "itemizedList": [
-    {
-      "itemName": "Big Mac Meal",
-      "itemQuantity": 1,
-      "itemCost": 12
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e28f215878502e608ea7"
-  },
-  "merchantName": "Pizza Hut",
-  "date": {
-    "$date": "2024-10-15T00:00:00.000Z"
-  },
-  "totalCost": 35,
-  "category": "Food",
-  "itemizedList": [
-    {
-      "itemName": "Large Pepperoni Pizza",
-      "itemQuantity": 1,
-      "itemCost": 35
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e2a0215878502e608eaa"
-  },
-  "merchantName": "Starbucks",
-  "date": {
-    "$date": "2024-10-18T00:00:00.000Z"
-  },
-  "totalCost": 15,
-  "category": "Food",
-  "itemizedList": [
-    {
-      "itemName": "Coffee & Bagel Set",
-      "itemQuantity": 1,
-      "itemCost": 15
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e2a5215878502e608ead"
-  },
-  "merchantName": "Subway",
-  "date": {
-    "$date": "2024-10-22T00:00:00.000Z"
-  },
-  "totalCost": 15,
-  "category": "Food",
-  "itemizedList": [
-    {
-      "itemName": "Footlong Sub",
-      "itemQuantity": 1,
-      "itemCost": 15
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
     "$oid": "66f0e2b4215878502e608eb0"
   },
   "merchantName": "Cathay Cineplex",
   "date": {
-    "$date": "2024-10-09T00:00:00.000Z"
+    "$date": "2025-02-09T00:00:00.000Z"
   },
   "totalCost": 25,
   "category": "Leisure",
@@ -556,131 +635,11 @@
 },
 {
   "_id": {
-    "$oid": "66f0e2b9215878502e608eb3"
-  },
-  "merchantName": "Orchird Country Club Bowling Alley",
-  "date": {
-    "$date": "2024-10-14T00:00:00.000Z"
-  },
-  "totalCost": 40,
-  "category": "Leisure",
-  "itemizedList": [
-    {
-      "itemName": "Bowling Session",
-      "itemQuantity": 4,
-      "itemCost": 40
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e2bd215878502e608eb6"
-  },
-  "merchantName": "Sistic",
-  "date": {
-    "$date": "2024-10-20T00:00:00.000Z"
-  },
-  "totalCost": 100,
-  "category": "Leisure",
-  "itemizedList": [
-    {
-      "itemName": "Concert Tickets",
-      "itemQuantity": 2,
-      "itemCost": 100
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e2f7215878502e608eb9"
-  },
-  "merchantName": "Universal Studios Singapore",
-  "date": {
-    "$date": "2024-10-25T00:00:00.000Z"
-  },
-  "totalCost": 150,
-  "category": "Leisure",
-  "itemizedList": [
-    {
-      "itemName": "Park Admission",
-      "itemQuantity": 2,
-      "itemCost": 150
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e324215878502e608ebc"
-  },
-  "merchantName": "KF1 Karting",
-  "date": {
-    "$date": "2024-10-28T00:00:00.000Z"
-  },
-  "totalCost": 60,
-  "category": "Leisure",
-  "itemizedList": [
-    {
-      "itemName": "Round of Go Kart",
-      "itemQuantity": 1,
-      "itemCost": 60
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e334215878502e608ebf"
-  },
-  "merchantName": "IKEA",
-  "date": {
-    "$date": "2024-10-11T00:00:00.000Z"
-  },
-  "totalCost": 200,
-  "category": "Housing",
-  "itemizedList": [
-    {
-      "itemName": "Wooden Dining Table",
-      "itemQuantity": 1,
-      "itemCost": 200
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e342215878502e608ec2"
-  },
-  "merchantName": "Nippon",
-  "date": {
-    "$date": "2024-10-13T00:00:00.000Z"
-  },
-  "totalCost": 100,
-  "category": "Housing",
-  "itemizedList": [
-    {
-      "itemName": "Paint & Supplies",
-      "itemQuantity": 1,
-      "itemCost": 100
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
     "$oid": "66f0e34b215878502e608ec5"
   },
   "merchantName": "Courts",
   "date": {
-    "$date": "2024-10-19T00:00:00.000Z"
+    "$date": "2025-02-19T00:00:00.000Z"
   },
   "totalCost": 350,
   "category": "Housing",
@@ -696,19 +655,19 @@
 },
 {
   "_id": {
-    "$oid": "66f0e355215878502e608ec8"
+    "$oid": "66f0e334215878502e608ebf"
   },
-  "merchantName": "Daiso",
+  "merchantName": "IKEA",
   "date": {
-    "$date": "2024-10-23T00:00:00.000Z"
+    "$date": "2025-02-11T00:00:00.000Z"
   },
-  "totalCost": 50,
+  "totalCost": 200,
   "category": "Housing",
   "itemizedList": [
     {
-      "itemName": "Home Improvement Tools",
+      "itemName": "Wooden Dining Table",
       "itemQuantity": 1,
-      "itemCost": 50
+      "itemCost": 200
     }
   ],
   "userId": "66f0cae53f33fc7276ec3c40",
@@ -720,7 +679,7 @@
   },
   "merchantName": "Bed Bath & Beyond",
   "date": {
-    "$date": "2024-10-30T00:00:00.000Z"
+    "$date": "2025-02-21T00:00:00.000Z"
   },
   "totalCost": 80,
   "category": "Housing",
@@ -736,31 +695,11 @@
 },
 {
   "_id": {
-    "$oid": "66f0e369215878502e608ece"
-  },
-  "merchantName": "Challenger",
-  "date": {
-    "$date": "2024-10-06T00:00:00.000Z"
-  },
-  "totalCost": 300,
-  "category": "Others",
-  "itemizedList": [
-    {
-      "itemName": "Laptop Accessories",
-      "itemQuantity": 1,
-      "itemCost": 300
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
     "$oid": "66f0e380215878502e608ed1"
   },
   "merchantName": "Amazon",
   "date": {
-    "$date": "2024-10-17T00:00:00.000Z"
+    "$date": "2025-02-17T00:00:00.000Z"
   },
   "totalCost": 80,
   "category": "Others",
@@ -780,7 +719,7 @@
   },
   "merchantName": "Apple Store",
   "date": {
-    "$date": "2024-10-29T00:00:00.000Z"
+    "$date": "2025-02-22T00:00:00.000Z"
   },
   "totalCost": 150,
   "category": "Others",
@@ -796,11 +735,31 @@
 },
 {
   "_id": {
+    "$oid": "66f0e355215878502e608ec8"
+  },
+  "merchantName": "Daiso",
+  "date": {
+    "$date": "2025-02-23T00:00:00.000Z"
+  },
+  "totalCost": 50,
+  "category": "Housing",
+  "itemizedList": [
+    {
+      "itemName": "Home Improvement Tools",
+      "itemQuantity": 1,
+      "itemCost": 50
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
     "$oid": "66f0e3da215878502e608ed7"
   },
   "merchantName": "Samsung",
   "date": {
-    "$date": "2024-10-21T00:00:00.000Z"
+    "$date": "2025-02-21T00:00:00.000Z"
   },
   "totalCost": 695,
   "category": "Others",
@@ -820,7 +779,7 @@
   },
   "merchantName": "Bellroy",
   "date": {
-    "$date": "2024-10-26T00:00:00.000Z"
+    "$date": "2025-02-26T00:00:00.000Z"
   },
   "totalCost": 60,
   "category": "Others",
@@ -840,7 +799,7 @@
   },
   "merchantName": "Watsons",
   "date": {
-    "$date": "2024-10-12T00:00:00.000Z"
+    "$date": "2025-02-12T00:00:00.000Z"
   },
   "totalCost": 35,
   "category": "Healthcare",
@@ -856,11 +815,321 @@
 },
 {
   "_id": {
+    "$oid": "66f0e369215878502e608ece"
+  },
+  "merchantName": "Challenger",
+  "date": {
+    "$date": "2025-02-06T00:00:00.000Z"
+  },
+  "totalCost": 300,
+  "category": "Others",
+  "itemizedList": [
+    {
+      "itemName": "Laptop Accessories",
+      "itemQuantity": 1,
+      "itemCost": 300
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e342215878502e608ec2"
+  },
+  "merchantName": "Nippon",
+  "date": {
+    "$date": "2025-02-13T00:00:00.000Z"
+  },
+  "totalCost": 100,
+  "category": "Housing",
+  "itemizedList": [
+    {
+      "itemName": "Paint & Supplies",
+      "itemQuantity": 1,
+      "itemCost": 100
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e4cf215878502e608ef1"
+  },
+  "merchantName": "Prime Taxi",
+  "date": {
+    "$date": "2025-03-15T00:00:00.000Z"
+  },
+  "totalCost": 22,
+  "category": "Transport",
+  "itemizedList": [
+    {
+      "itemName": "Airport Transfer",
+      "itemQuantity": 1,
+      "itemCost": 22
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e4cf215878502e608ef2"
+  },
+  "merchantName": "Unity Pharmacy",
+  "date": {
+    "$date": "2025-03-17T00:00:00.000Z"
+  },
+  "totalCost": 45,
+  "category": "Healthcare",
+  "itemizedList": [
+    {
+      "itemName": "Multivitamins",
+      "itemQuantity": 1,
+      "itemCost": 25
+    },
+    {
+      "itemName": "First Aid Supplies",
+      "itemQuantity": 1,
+      "itemCost": 20
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e4cf215878502e608ef3"
+  },
+  "merchantName": "Cotton On",
+  "date": {
+    "$date": "2025-03-19T00:00:00.000Z"
+  },
+  "totalCost": 85,
+  "category": "Clothing",
+  "itemizedList": [
+    {
+      "itemName": "Casual Shirts",
+      "itemQuantity": 3,
+      "itemCost": 45
+    },
+    {
+      "itemName": "Shorts",
+      "itemQuantity": 2,
+      "itemCost": 40
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e4cf215878502e608ef4"
+  },
+  "merchantName": "Far East Flora",
+  "date": {
+    "$date": "2025-03-21T00:00:00.000Z"
+  },
+  "totalCost": 65,
+  "category": "Housing",
+  "itemizedList": [
+    {
+      "itemName": "Indoor Plants",
+      "itemQuantity": 2,
+      "itemCost": 40
+    },
+    {
+      "itemName": "Plant Pots",
+      "itemQuantity": 2,
+      "itemCost": 25
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e4cf215878502e608ef5"
+  },
+  "merchantName": "Wild Honey",
+  "date": {
+    "$date": "2025-03-23T00:00:00.000Z"
+  },
+  "totalCost": 95,
+  "category": "Food",
+  "itemizedList": [
+    {
+      "itemName": "European Breakfast",
+      "itemQuantity": 2,
+      "itemCost": 70
+    },
+    {
+      "itemName": "Fresh Juice",
+      "itemQuantity": 2,
+      "itemCost": 25
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e4cf215878502e608ef6"
+  },
+  "merchantName": "Decathlon",
+  "date": {
+    "$date": "2025-03-25T00:00:00.000Z"
+  },
+  "totalCost": 130,
+  "category": "Leisure",
+  "itemizedList": [
+    {
+      "itemName": "Yoga Mat",
+      "itemQuantity": 1,
+      "itemCost": 50
+    },
+    {
+      "itemName": "Sports Attire",
+      "itemQuantity": 1,
+      "itemCost": 80
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e4cf215878502e608ef7"
+  },
+  "merchantName": "National Gallery",
+  "date": {
+    "$date": "2025-03-26T00:00:00.000Z"
+  },
+  "totalCost": 40,
+  "category": "Leisure",
+  "itemizedList": [
+    {
+      "itemName": "Exhibition Tickets",
+      "itemQuantity": 2,
+      "itemCost": 40
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e4cf215878502e608ef8"
+  },
+  "merchantName": "Pet Lovers Centre",
+  "date": {
+    "$date": "2025-03-27T00:00:00.000Z"
+  },
+  "totalCost": 95,
+  "category": "Others",
+  "itemizedList": [
+    {
+      "itemName": "Pet Food",
+      "itemQuantity": 1,
+      "itemCost": 65
+    },
+    {
+      "itemName": "Pet Toys",
+      "itemQuantity": 2,
+      "itemCost": 30
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e4cf215878502e608ef9"
+  },
+  "merchantName": "Power Mac Center",
+  "date": {
+    "$date": "2025-03-28T00:00:00.000Z"
+  },
+  "totalCost": 250,
+  "category": "Others",
+  "itemizedList": [
+    {
+      "itemName": "External Hard Drive",
+      "itemQuantity": 1,
+      "itemCost": 250
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e4cf215878502e608f00"
+  },
+  "merchantName": "Spa Botanica",
+  "date": {
+    "$date": "2025-03-29T00:00:00.000Z"
+  },
+  "totalCost": 180,
+  "category": "Healthcare",
+  "itemizedList": [
+    {
+      "itemName": "Therapeutic Massage",
+      "itemQuantity": 1,
+      "itemCost": 180
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e4cf215878502e608f01"
+  },
+  "merchantName": "Capitol Theatre",
+  "date": {
+    "$date": "2025-03-30T00:00:00.000Z"
+  },
+  "totalCost": 160,
+  "category": "Leisure",
+  "itemizedList": [
+    {
+      "itemName": "Theatre Show Tickets",
+      "itemQuantity": 2,
+      "itemCost": 160
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f0e4cf215878502e608f02"
+  },
+  "merchantName": "Best Denki",
+  "date": {
+    "$date": "2025-03-30T00:00:00.000Z"
+  },
+  "totalCost": 299,
+  "category": "Housing",
+  "itemizedList": [
+    {
+      "itemName": "Air Purifier",
+      "itemQuantity": 1,
+      "itemCost": 299
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
     "$oid": "66f0e490215878502e608ee0"
   },
   "merchantName": "Burger King",
   "date": {
-    "$date": "2024-10-09T00:00:00.000Z"
+    "$date": "2025-02-09T00:00:00.000Z"
   },
   "totalCost": 18,
   "category": "Food",
@@ -885,7 +1154,7 @@
   },
   "merchantName": "Wolfgang Puck",
   "date": {
-    "$date": "2024-10-20T00:00:00.000Z"
+    "$date": "2025-02-20T00:00:00.000Z"
   },
   "totalCost": 350,
   "category": "Food",
@@ -918,9 +1187,9 @@
   "_id": {
     "$oid": "66f0e4cf215878502e608ee4"
   },
-  "merchantName": "Whole Foods Market",
+  "merchantName": "Cold Storage",
   "date": {
-    "$date": "2024-11-01T00:00:00.000Z"
+    "$date": "2025-03-01T00:00:00.000Z"
   },
   "totalCost": 85,
   "category": "Food",
@@ -950,7 +1219,7 @@
   },
   "merchantName": "Pure Fitness",
   "date": {
-    "$date": "2024-11-03T00:00:00.000Z"
+    "$date": "2025-03-03T00:00:00.000Z"
   },
   "totalCost": 120,
   "category": "Leisure",
@@ -970,7 +1239,7 @@
   },
   "merchantName": "Muji",
   "date": {
-    "$date": "2024-11-05T00:00:00.000Z"
+    "$date": "2025-03-05T00:00:00.000Z"
   },
   "totalCost": 75,
   "category": "Housing",
@@ -995,7 +1264,7 @@
   },
   "merchantName": "Din Tai Fung",
   "date": {
-    "$date": "2024-11-07T00:00:00.000Z"
+    "$date": "2025-03-07T00:00:00.000Z"
   },
   "totalCost": 68,
   "category": "Food",
@@ -1025,7 +1294,7 @@
   },
   "merchantName": "Popular Bookstore",
   "date": {
-    "$date": "2024-11-09T00:00:00.000Z"
+    "$date": "2025-03-09T00:00:00.000Z"
   },
   "totalCost": 55,
   "category": "Others",
@@ -1050,7 +1319,7 @@
   },
   "merchantName": "Gong Cha",
   "date": {
-    "$date": "2024-11-11T00:00:00.000Z"
+    "$date": "2025-03-11T00:00:00.000Z"
   },
   "totalCost": 12,
   "category": "Food",
@@ -1070,7 +1339,7 @@
   },
   "merchantName": "FairPrice Finest",
   "date": {
-    "$date": "2024-11-13T00:00:00.000Z"
+    "$date": "2025-03-13T00:00:00.000Z"
   },
   "totalCost": 180,
   "category": "Food",
@@ -1091,281 +1360,11 @@
 },
 {
   "_id": {
-    "$oid": "66f0e4cf215878502e608ef1"
-  },
-  "merchantName": "Prime Taxi",
-  "date": {
-    "$date": "2024-11-15T00:00:00.000Z"
-  },
-  "totalCost": 22,
-  "category": "Transport",
-  "itemizedList": [
-    {
-      "itemName": "Airport Transfer",
-      "itemQuantity": 1,
-      "itemCost": 22
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e4cf215878502e608ef2"
-  },
-  "merchantName": "Unity Pharmacy",
-  "date": {
-    "$date": "2024-11-17T00:00:00.000Z"
-  },
-  "totalCost": 45,
-  "category": "Healthcare",
-  "itemizedList": [
-    {
-      "itemName": "Multivitamins",
-      "itemQuantity": 1,
-      "itemCost": 25
-    },
-    {
-      "itemName": "First Aid Supplies",
-      "itemQuantity": 1,
-      "itemCost": 20
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e4cf215878502e608ef3"
-  },
-  "merchantName": "Cotton On",
-  "date": {
-    "$date": "2024-11-19T00:00:00.000Z"
-  },
-  "totalCost": 85,
-  "category": "Clothing",
-  "itemizedList": [
-    {
-      "itemName": "Casual Shirts",
-      "itemQuantity": 3,
-      "itemCost": 45
-    },
-    {
-      "itemName": "Shorts",
-      "itemQuantity": 2,
-      "itemCost": 40
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e4cf215878502e608ef4"
-  },
-  "merchantName": "Far East Flora",
-  "date": {
-    "$date": "2024-11-21T00:00:00.000Z"
-  },
-  "totalCost": 65,
-  "category": "Housing",
-  "itemizedList": [
-    {
-      "itemName": "Indoor Plants",
-      "itemQuantity": 2,
-      "itemCost": 40
-    },
-    {
-      "itemName": "Plant Pots",
-      "itemQuantity": 2,
-      "itemCost": 25
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e4cf215878502e608ef5"
-  },
-  "merchantName": "Wild Honey",
-  "date": {
-    "$date": "2024-11-23T00:00:00.000Z"
-  },
-  "totalCost": 95,
-  "category": "Food",
-  "itemizedList": [
-    {
-      "itemName": "European Breakfast",
-      "itemQuantity": 2,
-      "itemCost": 70
-    },
-    {
-      "itemName": "Fresh Juice",
-      "itemQuantity": 2,
-      "itemCost": 25
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e4cf215878502e608ef6"
-  },
-  "merchantName": "Decathlon",
-  "date": {
-    "$date": "2024-11-25T00:00:00.000Z"
-  },
-  "totalCost": 130,
-  "category": "Leisure",
-  "itemizedList": [
-    {
-      "itemName": "Yoga Mat",
-      "itemQuantity": 1,
-      "itemCost": 50
-    },
-    {
-      "itemName": "Sports Attire",
-      "itemQuantity": 1,
-      "itemCost": 80
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e4cf215878502e608ef7"
-  },
-  "merchantName": "National Gallery",
-  "date": {
-    "$date": "2024-11-26T00:00:00.000Z"
-  },
-  "totalCost": 40,
-  "category": "Leisure",
-  "itemizedList": [
-    {
-      "itemName": "Exhibition Tickets",
-      "itemQuantity": 2,
-      "itemCost": 40
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e4cf215878502e608ef8"
-  },
-  "merchantName": "Pet Lovers Centre",
-  "date": {
-    "$date": "2024-11-27T00:00:00.000Z"
-  },
-  "totalCost": 95,
-  "category": "Others",
-  "itemizedList": [
-    {
-      "itemName": "Pet Food",
-      "itemQuantity": 1,
-      "itemCost": 65
-    },
-    {
-      "itemName": "Pet Toys",
-      "itemQuantity": 2,
-      "itemCost": 30
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e4cf215878502e608ef9"
-  },
-  "merchantName": "Power Mac Center",
-  "date": {
-    "$date": "2024-11-28T00:00:00.000Z"
-  },
-  "totalCost": 250,
-  "category": "Others",
-  "itemizedList": [
-    {
-      "itemName": "External Hard Drive",
-      "itemQuantity": 1,
-      "itemCost": 250
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e4cf215878502e608f00"
-  },
-  "merchantName": "Spa Botanica",
-  "date": {
-    "$date": "2024-11-29T00:00:00.000Z"
-  },
-  "totalCost": 180,
-  "category": "Healthcare",
-  "itemizedList": [
-    {
-      "itemName": "Therapeutic Massage",
-      "itemQuantity": 1,
-      "itemCost": 180
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e4cf215878502e608f01"
-  },
-  "merchantName": "Capitol Theatre",
-  "date": {
-    "$date": "2024-11-30T00:00:00.000Z"
-  },
-  "totalCost": 160,
-  "category": "Leisure",
-  "itemizedList": [
-    {
-      "itemName": "Theatre Show Tickets",
-      "itemQuantity": 2,
-      "itemCost": 160
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66f0e4cf215878502e608f02"
-  },
-  "merchantName": "Best Denki",
-  "date": {
-    "$date": "2024-11-30T00:00:00.000Z"
-  },
-  "totalCost": 299,
-  "category": "Housing",
-  "itemizedList": [
-    {
-      "itemName": "Air Purifier",
-      "itemQuantity": 1,
-      "itemCost": 299
-    }
-  ],
-  "userId": "66f0cae53f33fc7276ec3c40",
-  "__v": 0
-},
-{
-  "_id": {
     "$oid": "66f0e4cf215878502e608f03"
   },
   "merchantName": "Harvey Norman",
   "date": {
-    "$date": "2024-11-30T00:00:00.000Z"
+    "$date": "2025-03-30T00:00:00.000Z"
   },
   "totalCost": 199,
   "category": "Housing",
@@ -1378,6 +1377,284 @@
   ],
   "userId": "66f0cae53f33fc7276ec3c40",
   "__v": 0
-}
-
-]
+},
+{
+  "_id": {
+    "$oid": "67f7dc0c3271921bdc8ac3a8"
+  },
+  "merchantName": "Cold Storage",
+  "date": {
+    "$date": "2025-04-03T00:00:00.000Z"
+  },
+  "totalCost": 112.85,
+  "category": "Food",
+  "itemizedList": [
+    {
+      "itemName": "Organic Vegetables",
+      "itemQuantity": 1,
+      "itemCost": 34.5
+    },
+    {
+      "itemName": "Free-Range Chicken",
+      "itemQuantity": 2,
+      "itemCost": 28.75
+    },
+    {
+      "itemName": "Artisanal Bread",
+      "itemQuantity": 1,
+      "itemCost": 7.95
+    },
+    {
+      "itemName": "Premium Cheese Selection",
+      "itemQuantity": 1,
+      "itemCost": 18.65
+    },
+    {
+      "itemName": "Organic Berries",
+      "itemQuantity": 2,
+      "itemCost": 12
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67f7dc333271921bdc8ac3ab"
+  },
+  "merchantName": "Olive Garden",
+  "date": {
+    "$date": "2025-04-01T00:00:00.000Z"
+  },
+  "totalCost": 98.45,
+  "category": "Food",
+  "itemizedList": [
+    {
+      "itemName": "Tour of Italy",
+      "itemQuantity": 2,
+      "itemCost": 23.99
+    },
+    {
+      "itemName": "Breadsticks",
+      "itemQuantity": 2,
+      "itemCost": 5.99
+    },
+    {
+      "itemName": "House Salad",
+      "itemQuantity": 2,
+      "itemCost": 7.99
+    },
+    {
+      "itemName": "Tiramisu",
+      "itemQuantity": 1,
+      "itemCost": 8.5
+    },
+    {
+      "itemName": "Bottle of Chianti",
+      "itemQuantity": 1,
+      "itemCost": 26
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67f7dc473271921bdc8ac3ae"
+  },
+  "merchantName": "Sushi Express",
+  "date": {
+    "$date": "2025-04-02T00:00:00.000Z"
+  },
+  "totalCost": 78.7,
+  "category": "Food",
+  "itemizedList": [
+    {
+      "itemName": "Dragon Roll",
+      "itemQuantity": 2,
+      "itemCost": 16.95
+    },
+    {
+      "itemName": "Miso Soup",
+      "itemQuantity": 2,
+      "itemCost": 4.5
+    },
+    {
+      "itemName": "Edamame",
+      "itemQuantity": 1,
+      "itemCost": 6
+    },
+    {
+      "itemName": "Gyoza",
+      "itemQuantity": 1,
+      "itemCost": 8.95
+    },
+    {
+      "itemName": "Delivery Fee",
+      "itemQuantity": 1,
+      "itemCost": 5.99
+    },
+    {
+      "itemName": "Tip",
+      "itemQuantity": 1,
+      "itemCost": 14.86
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67f7dc583271921bdc8ac3b1"
+  },
+  "merchantName": "Le Bernardin",
+  "date": {
+    "$date": "2025-04-05T00:00:00.000Z"
+  },
+  "totalCost": 405,
+  "category": "Food",
+  "itemizedList": [
+    {
+      "itemName": "Chef's Tasting Menu",
+      "itemQuantity": 2,
+      "itemCost": 175
+    },
+    {
+      "itemName": "Wine Pairing",
+      "itemQuantity": 1,
+      "itemCost": 95
+    },
+    {
+      "itemName": "Sparkling Water",
+      "itemQuantity": 2,
+      "itemCost": 12
+    },
+    {
+      "itemName": "Coffee Service",
+      "itemQuantity": 2,
+      "itemCost": 8
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67f7dc743271921bdc8ac3b4"
+  },
+  "merchantName": "Golden Village",
+  "date": {
+    "$date": "2025-04-05T00:00:00.000Z"
+  },
+  "totalCost": 84.5,
+  "category": "Leisure",
+  "itemizedList": [
+    {
+      "itemName": "IMAX 3D Tickets",
+      "itemQuantity": 2,
+      "itemCost": 22.5
+    },
+    {
+      "itemName": "Large Popcorn",
+      "itemQuantity": 1,
+      "itemCost": 12.99
+    },
+    {
+      "itemName": "Nachos",
+      "itemQuantity": 1,
+      "itemCost": 9.99
+    },
+    {
+      "itemName": "Large Sodas",
+      "itemQuantity": 2,
+      "itemCost": 8.25
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67f7dca03271921bdc8ac3b7"
+  },
+  "merchantName": "Clarke Quay Boat Ride",
+  "date": {
+    "$date": "2025-04-10T00:00:00.000Z"
+  },
+  "totalCost": 60.5,
+  "category": "Leisure",
+  "itemizedList": [
+    {
+      "itemName": "Rowboat - 2 hours",
+      "itemQuantity": 1,
+      "itemCost": 45
+    },
+    {
+      "itemName": "Life Vests",
+      "itemQuantity": 2,
+      "itemCost": 5
+    },
+    {
+      "itemName": "Bottled Water",
+      "itemQuantity": 2,
+      "itemCost": 2.75
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67f7dcaf3271921bdc8ac3ba"
+  },
+  "merchantName": "H&M",
+  "date": {
+    "$date": "2025-04-09T00:00:00.000Z"
+  },
+  "totalCost": 20,
+  "category": "Clothing",
+  "itemizedList": [
+    {
+      "itemName": "Cotton T-shirt",
+      "itemQuantity": 2,
+      "itemCost": 9.99
+    },
+    {
+      "itemName": "Recycled Bag Fee",
+      "itemQuantity": 1,
+      "itemCost": 0.02
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67f7dd733271921bdc8ac3c9"
+  },
+  "merchantName": "Lion King Musical",
+  "date": {
+    "$date": "2025-04-07T00:00:00.000Z"
+  },
+  "totalCost": 130,
+  "category": "Leisure",
+  "itemizedList": [
+    {
+      "itemName": "Orchestra Seat Ticket",
+      "itemQuantity": 1,
+      "itemCost": 110
+    },
+    {
+      "itemName": "Souvenir Program",
+      "itemQuantity": 1,
+      "itemCost": 15
+    },
+    {
+      "itemName": "Coat Check",
+      "itemQuantity": 1,
+      "itemCost": 5
+    }
+  ],
+  "userId": "66f0cae53f33fc7276ec3c40",
+  "__v": 0
+}]

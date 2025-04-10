@@ -68,6 +68,7 @@ services:
         JSON_FILES=(
           "spend_ai.receipts.json"
           "spend_ai.users.json"
+          "spend_ai.budgets.json"
         )
 
         for file in "$${JSON_FILES[@]}"; do

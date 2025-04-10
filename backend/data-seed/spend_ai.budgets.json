@@ -1,0 +1,63 @@
+[{
+  "_id": {
+    "$oid": "67f7da813271921bdc8ac39e"
+  },
+  "userId": {
+    "$oid": "66f0cae53f33fc7276ec3c40"
+  },
+  "category": "Food",
+  "amount": 500,
+  "period": "monthly",
+  "startDate": {
+    "$date": "2025-03-31T16:00:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-04-10T14:49:37.780Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-10T14:49:37.780Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67f7db173271921bdc8ac3a1"
+  },
+  "userId": {
+    "$oid": "66f0cae53f33fc7276ec3c40"
+  },
+  "category": "Leisure",
+  "amount": 300,
+  "period": "monthly",
+  "startDate": {
+    "$date": "2025-03-31T16:00:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-04-10T14:52:07.014Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-10T14:52:07.014Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67f7db613271921bdc8ac3a4"
+  },
+  "userId": {
+    "$oid": "66f0cae53f33fc7276ec3c40"
+  },
+  "category": "Clothing",
+  "amount": 200,
+  "period": "monthly",
+  "startDate": {
+    "$date": "2025-03-31T16:00:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-04-10T14:53:21.645Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-10T14:53:21.645Z"
+  },
+  "__v": 0
+}]
