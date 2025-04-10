@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { getAllReceiptsServerAction, confirmReceiptServerAction, uploadReceiptServerAction, updateReceiptServerAction } from '@/app/api/receipt/route';
 import { ReceiptResponse } from "@/components/table/transactionCols"
 
@@ -19,7 +19,7 @@ export function useReceipt() {
     const [isUpdating, setIsUpdating] = useState(false);
     const [error, updateError] = useState<Error | null>(null);
 
-    const getAllReceipts = async (): Promise<ReceiptResponse[]> => {
+    const getAllReceipts = useCallback(async (): Promise<ReceiptResponse[]> => {
         setIsGetting(true);
         updateError(null);
         try {
@@ -42,9 +42,9 @@ export function useReceipt() {
         } finally {
             setIsGetting(false);
         }
-    };
+    }, []);
 
-    const confirmReceipt = async (confirmedData: ReceiptResponse): Promise<boolean> => {
+    const confirmReceipt = useCallback(async (confirmedData: ReceiptResponse): Promise<boolean> => {
         setIsConfirming(true);
         updateError(null);
         try {
@@ -57,9 +57,9 @@ export function useReceipt() {
         } finally {
             setIsConfirming(false);
         }
-    };
+    }, []);
 
-    const uploadReceipt = async (formData: FormData): Promise<ReceiptResponse> => {
+    const uploadReceipt = useCallback(async (formData: FormData): Promise<ReceiptResponse> => {
         setIsUploading(true);
         updateError(null);
         try {
@@ -72,9 +72,9 @@ export function useReceipt() {
         } finally {
             setIsUploading(false);
         }
-    };
+    }, []);
 
-    const updateReceipt = async (updatedData: ReceiptResponse): Promise<ReceiptResponse> => {
+    const updateReceipt = useCallback(async (updatedData: ReceiptResponse): Promise<ReceiptResponse> => {
         setIsUpdating(true);
         updateError(null);
         try {
@@ -87,7 +87,7 @@ export function useReceipt() {
         } finally {
             setIsUpdating(false);
         }
-    };
+    }, []);
 
     return {
         getAllReceipts,
