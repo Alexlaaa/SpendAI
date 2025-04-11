@@ -25,7 +25,7 @@ import {
   scryptSync,
 } from 'crypto';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from './schemas/user.schema';
+import { User, UserTier } from './schemas/user.schema'; // Import UserTier
 import { Model } from 'mongoose';
 import { UserDocument } from './schemas/user.schema';
 import { TrackErrors } from '../metrics/function-error.decorator';
@@ -209,14 +209,21 @@ export class UserService {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    // Update the tier field
-    user.tier = newTier;
+    // Validate and update the tier field using the imported UserTier enum
+    if (!Object.values(UserTier).includes(newTier as UserTier)) {
+      throw new HttpException(
+        `Invalid tier value: ${newTier}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    user.tier = newTier as UserTier; // Assign validated tier
 
     // Update billing cycle only if provided
     if (newBillingCycle) {
       user.billingCycle = newBillingCycle;
     } else {
-      if (newTier === 'tier1') {
+      if (newTier === UserTier.TIER1) {
+        // Compare with enum value
         user.billingCycle = undefined;
       } else if (!user.billingCycle) {
         // If moving to a paid ier and no cycle exists, default to monthly

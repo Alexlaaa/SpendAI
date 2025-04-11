@@ -55,6 +55,60 @@ export async function updateUserTier(payload: UpdateTierPayload) {
   }
 }
 
+export async function exportReceiptsData(): Promise<{ success: boolean; data?: string; error?: string; filename?: string }> {
+  try {
+    const jwt = cookies().get("jwt");
+    if (!jwt) {
+      return { success: false, error: "Not authenticated" };
+    }
+
+    const response = await fetch(`${process.env.BACKEND_URL}/api/receipts/export`, {
+      method: "GET",
+      headers: {
+        // No Content-Type needed for GET
+        Cookie: `jwt=${jwt.value}`,
+      },
+      credentials: "include",
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      // Try to parse error message from backend if possible
+      let errorMessage = `Failed to export data (${response.status})`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+      } catch (e) {
+        // Ignore if response is not JSON
+      }
+      console.error("[API Settings Route] Export failed:", errorMessage);
+      return { success: false, error: errorMessage };
+    }
+
+    // Get filename from header
+    const contentDisposition = response.headers.get('Content-Disposition');
+    let filename = `spendai_receipts_${new Date().toISOString().split('T')[0]}.csv`; // Default filename
+    if (contentDisposition) {
+      const filenameMatch = contentDisposition.match(/filename="?(.+)"?/i);
+      if (filenameMatch && filenameMatch[1]) {
+        filename = filenameMatch[1];
+      }
+    }
+
+    const csvData = await response.text(); // Get CSV data as text
+
+    console.log("[API Settings Route] Export successful.");
+    return { success: true, data: csvData, filename: filename };
+
+  } catch (error: any) {
+    console.error("[API Settings Route] Error exporting data:", error);
+    return {
+      success: false,
+      error: error.message || "An unexpected error occurred during export",
+    };
+  }
+}
+
 type ApiTokenResponse = {
   defaultModel: string;
   geminiKey?: string;

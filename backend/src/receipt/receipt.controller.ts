@@ -11,12 +11,18 @@ import {
   UsePipes,
   HttpCode,
   Logger,
+  Res,
+  UseGuards,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { ReceiptService } from './receipt.service';
 import { CreateReceiptDto, UpdateReceiptDto, ReceiptResponseDto } from './dto';
 import { ValidationPipe } from '../shared/pipes/validation.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { User } from '../user/user.decorator';
+import { AuthenticatedUser } from '../goal/goal.service';
+import { RequiredTier, TierGuard } from '../shared/guards/tier.guard';
+import { UserTier } from '../user/schemas/user.schema';
 import {
   ApiTags,
   ApiOperation,
@@ -156,5 +162,38 @@ export class ReceiptController {
     const customPrompt = body.query;
     this.logger.log('customPrompt:', customPrompt);
     return this.receiptService.getTransactionReview(userId, customPrompt);
+  }
+
+  @Get('export')
+  @UseGuards(TierGuard)
+  @RequiredTier(UserTier.TIER2) // Requires Tier 2 or higher
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Export user receipts as CSV' })
+  @ApiResponse({
+    status: 200,
+    description: 'Receipts exported successfully as CSV.',
+    content: { 'text/csv': {} }, // Indicate CSV content type
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 403, description: 'Forbidden (Insufficient Tier).' })
+  async exportReceipts(
+    @User() user: AuthenticatedUser,
+    @Res() res: Response,
+  ): Promise<void> {
+    this.logger.log(
+      `Received request to export receipts for user ${user.id}  `,
+    );
+    // Assuming service expects string ID based on other methods
+    const csvData = await this.receiptService.exportReceiptsAsCsv(
+      user._id.toString(),
+    );
+
+    // Set headers for CSV download
+    const filename = `spendai_receipts_${new Date().toISOString().split('T')[0]}.csv`;
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+
+    // Send the CSV data
+    res.send(csvData);
   }
 }

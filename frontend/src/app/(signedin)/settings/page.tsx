@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Button2 } from "@/components/ui/button2";
 import {
@@ -9,14 +9,33 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useState, useRef, useEffect } from "react";
 import { useApiTokens } from "@/hooks/useApiTokens";
+import { exportReceiptsData } from "@/app/api/settings/route"; // Corrected import path
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CheckCircle2Icon, AlertTriangle, Key, Shield, Lock, Eye, EyeOff } from "lucide-react";
-import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  CheckCircle2Icon,
+  AlertTriangle,
+  Key,
+  Shield,
+  Lock,
+  Eye,
+  EyeOff,
+} from "lucide-react";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label2 } from "@/components/ui/label2";
+import { useAuth } from "@/hooks/AuthProvider";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 
 const SettingsPage = () => {
-  const { loading, error, tokenStatus, updateTokens, fetchTokenStatus } = useApiTokens();
+  const { user } = useAuth();
+  const { loading, error, tokenStatus, updateTokens, fetchTokenStatus } =
+    useApiTokens();
 
   const [formData, setFormData] = useState({
     geminiAPIKey: "",
@@ -25,10 +44,13 @@ const SettingsPage = () => {
   });
 
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [dropdownWidth, setDropdownWidth] = useState<number | undefined>(undefined);
+  const [dropdownWidth, setDropdownWidth] = useState<number | undefined>(
+    undefined
+  );
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [showGeminiKey, setShowGeminiKey] = useState(false);
   const [showOpenAIKey, setShowOpenAIKey] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
     if (buttonRef.current) {
@@ -52,6 +74,41 @@ const SettingsPage = () => {
       return () => clearTimeout(timer);
     }
   }, [successMessage]);
+
+  const handleExport = async () => {
+    if (!user || (user.tier !== "tier2" && user.tier !== "tier3")) {
+      alert("Export feature requires Tier 2 or higher.");
+      return;
+    }
+    setIsExporting(true);
+    try {
+      // Call the server action
+      const result = await exportReceiptsData();
+
+      if (!result.success || !result.data || !result.filename) {
+        throw new Error(
+          result.error || "Failed to export data. Unknown error."
+        );
+      }
+
+      // Handle the file download using the data from the server action
+      const blob = new Blob([result.data], { type: "text/csv;charset=utf-8;" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = result.filename; // Use filename from server action
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err: any) {
+      console.error("Error exporting data:", err);
+      // Display error to user (e.g., using toast)
+      alert(`Export failed: ${err.message}`);
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,11 +159,15 @@ const SettingsPage = () => {
               <Shield className="mr-2 h-6 w-6 text-blue-600" />
               Secure API Settings
             </h2>
-            <p className="text-sm text-gray-600">Manage your AI provider preferences and API keys</p>
+            <p className="text-sm text-gray-600">
+              Manage your AI provider preferences and API keys
+            </p>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label2 htmlFor="dropdownDefaultButton">Select your default Provider</Label2>
+              <Label2 htmlFor="dropdownDefaultButton">
+                Select your default Provider
+              </Label2>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button2
@@ -134,9 +195,21 @@ const SettingsPage = () => {
                     </svg>
                   </Button2>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent style={{ width: dropdownWidth ? `${dropdownWidth}px` : "auto" }}>
-                  <DropdownMenuItem onSelect={() => handleProviderChange("OPENAI")}>OpenAI</DropdownMenuItem>
-                  <DropdownMenuItem onSelect={() => handleProviderChange("GEMINI")}>Google Gemini</DropdownMenuItem>
+                <DropdownMenuContent
+                  style={{
+                    width: dropdownWidth ? `${dropdownWidth}px` : "auto",
+                  }}
+                >
+                  <DropdownMenuItem
+                    onSelect={() => handleProviderChange("OPENAI")}
+                  >
+                    OpenAI
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onSelect={() => handleProviderChange("GEMINI")}
+                  >
+                    Google Gemini
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -161,11 +234,16 @@ const SettingsPage = () => {
                   className="absolute right-1 top-1/2 transform -translate-y-1/2"
                   onClick={() => setShowGeminiKey(!showGeminiKey)}
                 >
-                  {showGeminiKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showGeminiKey ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
                 </Button2>
               </div>
               <p className="text-sm text-gray-500">
-                Status: {tokenStatus?.geminiKey === "SET" ? (
+                Status:{" "}
+                {tokenStatus?.geminiKey === "SET" ? (
                   <span className="text-green-600 font-semibold">SET</span>
                 ) : (
                   <span className="text-yellow-600 font-semibold">UNSET</span>
@@ -193,11 +271,16 @@ const SettingsPage = () => {
                   className="absolute right-1 top-1/2 transform -translate-y-1/2"
                   onClick={() => setShowOpenAIKey(!showOpenAIKey)}
                 >
-                  {showOpenAIKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showOpenAIKey ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
                 </Button2>
               </div>
               <p className="text-sm text-gray-500">
-                Status: {tokenStatus?.openaiKey === "SET" ? (
+                Status:{" "}
+                {tokenStatus?.openaiKey === "SET" ? (
                   <span className="text-green-600 font-semibold">SET</span>
                 ) : (
                   <span className="text-yellow-600 font-semibold">UNSET</span>
@@ -208,7 +291,9 @@ const SettingsPage = () => {
             {successMessage && (
               <Alert variant="default" className="bg-green-50 border-green-200">
                 <CheckCircle2Icon className="h-5 w-5 text-green-600" />
-                <AlertDescription className="text-green-700">{successMessage}</AlertDescription>
+                <AlertDescription className="text-green-700">
+                  {successMessage}
+                </AlertDescription>
               </Alert>
             )}
 
@@ -231,6 +316,38 @@ const SettingsPage = () => {
           </CardFooter>
         </form>
       </Card>
+
+      {/* Data Export Section - Conditionally Rendered */}
+      {user && (user.tier === "tier2" || user.tier === "tier3") && (
+        <Card className="w-full mt-6">
+          <CardHeader>
+            <h2 className="text-2xl font-bold text-gray-800 flex items-center">
+              <Download className="mr-2 h-6 w-6 text-blue-600" />
+              Data Export
+            </h2>
+            <p className="text-sm text-gray-600">
+              Download your spending data.
+            </p>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-700 mb-4">
+              Export all your receipt data as a CSV file. This includes merchant
+              name, date, total cost, category, and itemized details (if
+              available).
+            </p>
+          </CardContent>
+          <CardFooter>
+            <Button
+              onClick={handleExport}
+              disabled={isExporting}
+              className="w-full"
+            >
+              {isExporting ? "Exporting..." : "Export Spending Data (.csv)"}
+              {!isExporting && <Download className="ml-2 h-4 w-4" />}
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
     </div>
   );
 };

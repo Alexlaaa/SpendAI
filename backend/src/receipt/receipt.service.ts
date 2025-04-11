@@ -6,8 +6,9 @@ import axios from 'axios';
 import { UserService } from '../user/user.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { parse, isValid } from 'date-fns';
+import { parse, isValid, format } from 'date-fns';
 import { TrackErrors } from '../metrics/function-error.decorator';
+import { unparse } from 'papaparse';
 
 @Injectable()
 export class ReceiptService {
@@ -315,5 +316,92 @@ export class ReceiptService {
       id: _id, // Add the 'id' field with the value of '_id'
       ...rest, // Spread all other fields
     };
+  }
+
+  // Export receipts as CSV
+  @TrackErrors
+  async exportReceiptsAsCsv(userId: string): Promise<string> {
+    this.logger.log(`Exporting receipts for user: ${userId}`);
+    const receipts = await this.receiptModel.find({ userId }).lean().exec(); // Use lean() for performance
+
+    if (!receipts || receipts.length === 0) {
+      this.logger.warn(`No receipts found for user ${userId} to export.`);
+      return ''; // Return empty string if no receipts
+    }
+
+    // Define the maximum number of items to flatten
+    const maxItems = receipts.reduce((max, receipt) => {
+      return receipt.itemizedList
+        ? Math.max(max, receipt.itemizedList.length) // Format ternary
+        : max;
+    }, 0);
+
+    // Prepare data for CSV conversion
+    const dataToExport = receipts.map((receipt) => {
+      const baseData = {
+        ReceiptID: receipt._id.toString(),
+        MerchantName: receipt.merchantName,
+        Date: receipt.date ? format(receipt.date, 'yyyy-MM-dd') : '', // Format date
+        TotalCost: receipt.totalCost,
+        Category: receipt.category,
+        // Add other base fields if necessary
+      };
+
+      // Flatten itemizedList
+      const itemData = {};
+      if (receipt.itemizedList) {
+        for (let i = 0; i < maxItems; i++) {
+          const item = receipt.itemizedList[i];
+          itemData[`Item_${i + 1}_Name`] = item ? item.itemName : '';
+          itemData[`Item_${i + 1}_Quantity`] = item ? item.itemQuantity : '';
+          itemData[`Item_${i + 1}_Cost`] = item ? item.itemCost : '';
+        }
+      } else {
+         // Add empty item columns if no itemizedList exists for this receipt
+         for (let i = 0; i < maxItems; i++) {
+          itemData[`Item_${i + 1}_Name`] = '';
+          itemData[`Item_${i + 1}_Quantity`] = '';
+          itemData[`Item_${i + 1}_Cost`] = '';
+        }
+      }
+      // Remove extra blank line
+      return { ...baseData, ...itemData };
+    });
+
+    // Define CSV headers dynamically based on maxItems
+    const baseHeaders = [
+      'ReceiptID',
+      'MerchantName',
+      'Date',
+      'TotalCost',
+      'Category',
+    ]; // Format array
+    const itemHeaders = [];
+    for (let i = 0; i < maxItems; i++) {
+      itemHeaders.push(
+        `Item_${i + 1}_Name`,
+        `Item_${i + 1}_Quantity`,
+        `Item_${i + 1}_Cost`,
+      ); // Format array elements
+    }
+    const headers = [...baseHeaders, ...itemHeaders];
+    try {
+      const csvString = unparse(dataToExport, {
+        header: true,
+        columns: headers, // Ensure columns are ordered correctly
+      });
+      this.logger.log(`Successfully generated CSV for user ${userId}`);
+      return csvString;
+    } catch (error) {
+      this.logger.error(
+        `Error generating CSV for user ${userId}: ${error.message}`,
+        error.stack,
+      ); // Format logger arguments
+
+      throw new HttpException(
+        'Failed to generate CSV data',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      ); // Format exception arguments
+    }
   }
 }

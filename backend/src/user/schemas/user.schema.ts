@@ -4,6 +4,12 @@ import { Document } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import * as argon2 from 'argon2';
 
+export enum UserTier {
+  TIER1 = 'tier1',
+  TIER2 = 'tier2',
+  TIER3 = 'tier3',
+}
+
 export type UserDocument = User & Document;
 
 @Schema()
@@ -64,16 +70,17 @@ export class User {
 
   @ApiProperty({
     description: 'Subscription tier of the user',
-    enum: ['tier1', 'tier2', 'tier3'],
-    default: 'tier1',
+    enum: UserTier,
+    enumName: 'UserTier',
+    default: UserTier.TIER1,
   })
   @Prop({
     type: String,
-    enum: ['tier1', 'tier2', 'tier3'],
-    default: 'tier1',
+    enum: Object.values(UserTier), // Use enum values for Mongoose enum validation
+    default: UserTier.TIER1,
     required: true,
   })
-  tier: string;
+  tier: UserTier;
 
   @ApiProperty({
     description: 'Billing cycle for the subscription',
