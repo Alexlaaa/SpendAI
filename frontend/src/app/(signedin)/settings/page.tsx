@@ -76,6 +76,7 @@ const SettingsPage = () => {
   }, [successMessage]);
 
   const handleExport = async () => {
+    // Keep the tier check here to prevent accidental clicks if UI state is slow
     if (!user || (user.tier !== "tier2" && user.tier !== "tier3")) {
       alert("Export feature requires Tier 2 or higher.");
       return;
@@ -317,15 +318,19 @@ const SettingsPage = () => {
         </form>
       </Card>
 
-      {/* Data Export Section - Conditionally Rendered */}
-      {user && (user.tier === "tier2" || user.tier === "tier3") && (
-        <Card className="w-full mt-6">
+      {/* Data Export Section - Always Rendered */}
+      <Card className="w-full mt-6">
           <CardHeader>
-            <h2 className="text-2xl font-bold text-gray-800 flex items-center">
-              <Download className="mr-2 h-6 w-6 text-blue-600" />
-              Data Export
-            </h2>
-            <p className="text-sm text-gray-600">
+             <div className="flex justify-between items-center"> {/* Flex container for title and badge */}
+                <h2 className="text-2xl font-bold text-gray-800 flex items-center">
+                    <Download className="mr-2 h-6 w-6 text-blue-600" />
+                    Data Export
+                </h2>
+                {user?.tier === 'tier1' && (
+                    <span className="text-xs font-semibold px-2 py-1 bg-gray-200 text-gray-600 rounded-full">Tier 2+ Feature</span>
+                )}
+             </div>
+            <p className="text-sm text-gray-600 pt-1"> {/* Added padding top */}
               Download your spending data.
             </p>
           </CardHeader>
@@ -339,15 +344,15 @@ const SettingsPage = () => {
           <CardFooter>
             <Button
               onClick={handleExport}
-              disabled={isExporting}
-              className="w-full"
+              disabled={isExporting || user?.tier === 'tier1'} // Disable if exporting OR tier 1
+              className="w-full disabled:grayscale disabled:opacity-60 disabled:pointer-events-none" // Add disabled styles
+              title={user?.tier === 'tier1' ? "Requires Tier 2 or higher" : undefined} // Add tooltip for disabled state
             >
               {isExporting ? "Exporting..." : "Export Spending Data (.csv)"}
               {!isExporting && <Download className="ml-2 h-4 w-4" />}
             </Button>
           </CardFooter>
         </Card>
-      )}
     </div>
   );
 };
