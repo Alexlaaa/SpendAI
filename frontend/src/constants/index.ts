@@ -89,7 +89,6 @@ export const pricingPlans = [
     period: "month",
     features: [
       "All Tier 1 features",
-      "AI Chatbot",
       "Financial Goal Setting",
       "Data Export (.csv)",
     ],
@@ -103,7 +102,7 @@ export const pricingPlans = [
     price: "25",
     yearlyPrice: "240",
     period: "month",
-    features: ["All Tier 2 features", "Family Budgeting", "Priority Support"],
+    features: ["All Tier 2 features", "AI Chatbot", "Priority Support"],
     description: "Comprehensive tools for individuals and families.",
     buttonText: "Choose Tier 3",
     href: "/signup?tier=tier3",
