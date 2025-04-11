@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useState, useRef, useEffect } from "react";
 import { useApiTokens } from "@/hooks/useApiTokens";
-import { exportReceiptsData } from "@/app/api/settings/route"; // Corrected import path
+import { exportReceiptsData } from "@/app/api/settings/route";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   CheckCircle2Icon,

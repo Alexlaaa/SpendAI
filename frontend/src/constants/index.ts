@@ -42,19 +42,26 @@ export const sideBarLinks = [
   {
     id: "navLink4",
     position: "top",
+    label: "Goals",
+    route: "/goals",
+    icon: "/icons/goals.svg",
+  },
+  {
+    id: "navLink5",
+    position: "top",
     label: "Pricing",
     route: "/pricing",
     icon: "/icons/pricing.svg",
   },
   {
-    id: "navLink5",
+    id: "navLink6",
     position: "bot",
     label: "Settings",
     route: "/settings",
     icon: "/icons/settings.svg",
   },
   {
-    id: "navLink6",
+    id: "navLink7",
     position: "bot",
     label: "Sign Out",
     route: "/",
