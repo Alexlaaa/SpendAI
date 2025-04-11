@@ -1,0 +1,107 @@
+[{
+  "_id": {
+    "$oid": "67f8e220acc79ca5904ec576"
+  },
+  "name": "Save for BTO Downpayment",
+  "targetAmount": 60000,
+  "currentAmount": 43000,
+  "deadline": {
+    "$date": "2026-03-31T00:00:00.000Z"
+  },
+  "type": "short-term",
+  "userId": {
+    "$oid": "66f0cae53f33fc7276ec3c40"
+  },
+  "category": "Housing",
+  "priority": 1,
+  "contributions": [
+    {
+      "amount": 5000,
+      "date": {
+        "$date": "2025-04-11T09:36:24.338Z"
+      }
+    },
+    {
+      "amount": 7500,
+      "date": {
+        "$date": "2025-04-11T09:47:42.194Z"
+      }
+    },
+    {
+      "amount": 6000,
+      "date": {
+        "$date": "2025-04-11T09:48:18.619Z"
+      }
+    },
+    {
+      "amount": 12000,
+      "date": {
+        "$date": "2025-04-11T09:48:33.674Z"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-04-11T09:34:24.311Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-11T09:48:33.674Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67f8e253acc79ca5904ec57b"
+  },
+  "name": "Save for kid's tertiary education",
+  "targetAmount": 50000,
+  "currentAmount": 0,
+  "deadline": {
+    "$date": "2028-07-11T00:00:00.000Z"
+  },
+  "type": "long-term",
+  "userId": {
+    "$oid": "66f0cae53f33fc7276ec3c40"
+  },
+  "priority": 3,
+  "contributions": [],
+  "createdAt": {
+    "$date": "2025-04-11T09:35:15.128Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-11T09:46:12.103Z"
+  },
+  "__v": 0,
+  "category": "Education"
+},
+{
+  "_id": {
+    "$oid": "67f8e4d3acc79ca5904ec58c"
+  },
+  "name": "Save for Thailand Trip",
+  "targetAmount": 5000,
+  "currentAmount": 5000,
+  "deadline": {
+    "$date": "2025-12-15T00:00:00.000Z"
+  },
+  "type": "short-term",
+  "userId": {
+    "$oid": "66f0cae53f33fc7276ec3c40"
+  },
+  "category": "Travel",
+  "priority": 2,
+  "contributions": [
+    {
+      "amount": 5000,
+      "date": {
+        "$date": "2025-04-11T09:47:42.135Z"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-04-11T09:45:55.963Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-11T09:47:42.135Z"
+  },
+  "__v": 0
+}]

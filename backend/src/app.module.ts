@@ -8,6 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { ReceiptModule } from './receipt/receipt.module';
 import { BudgetModule } from './budget/budget.module';
+import { GoalModule } from './goal/goal.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MetricsModule } from './metrics/metrics.module';
 import { ReporterModule } from './reporter/reporter.module';
@@ -35,6 +36,7 @@ import { AuthMiddleware } from './user/auth.middleware';
     UserModule,
     ReceiptModule,
     BudgetModule,
+    GoalModule,
     MetricsModule,
     ReporterModule,
   ],
@@ -87,6 +89,8 @@ export class AppModule implements NestModule {
         { path: '/receipts/*', method: RequestMethod.ALL },
         { path: '/budgets', method: RequestMethod.ALL },
         { path: '/budgets/*', method: RequestMethod.ALL },
+        { path: '/goals', method: RequestMethod.ALL },
+        { path: '/goals/*', method: RequestMethod.ALL },
       );
   }
 }
