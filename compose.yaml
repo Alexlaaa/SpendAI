@@ -31,38 +31,26 @@ services:
     networks:
       - app-network
 
-  mongodb:
+  atlas-seed:
     image: mongo:latest
-    environment:
-      - MONGO_INITDB_DATABASE=spend_ai
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=secret
-    ports:
-      - "27017:27017"
-    volumes:
-      - ./backend/data-seed:/data
-    networks:
-      - app-network
-
-  mongodb-seed:
-    image: mongo:latest
-    depends_on:
-      - mongodb
     volumes:
       - ./backend/data-seed:/data
     command: >
       bash -c '
         set -e;
-        echo "Waiting for MongoDB to be ready...";
-        until mongosh --host mongodb --port 27017 -u root -p secret --authenticationDatabase admin --eval "print(\"waited for connection\")"; do
-          sleep 2;
+        echo "Waiting for Local Atlas Deployment (host.docker.internal:27018)...";
+        # Wait until connection to the local Atlas deployment is successful
+        until mongosh "mongodb://host.docker.internal:27017/spend_ai?directConnection=true" --eval "print(\"waited for connection\")"; do
+          sleep 5;
         done;
-        echo "MongoDB is ready.";
+        echo "Local Atlas Deployment is ready.";
 
-        echo "Dropping existing database and creating a new one...";
-        mongosh --host mongodb --port 27017 -u root -p secret --authenticationDatabase admin --eval "
+        echo "Dropping existing database spend_ai and creating a new one...";
+        # Use the URI directly with mongosh
+        mongosh "mongodb://host.docker.internal:27017/spend_ai?directConnection=true" --eval "
           use spend_ai;
           db.dropDatabase();
+          print(\"Database dropped and switched.\");
         "
 
         JSON_FILES=(
@@ -75,9 +63,9 @@ services:
         for file in "$${JSON_FILES[@]}"; do
           echo "Importing $$file...";
           collection=$$(echo "$$file" | sed "s/spend_ai\\.\(.*\)\.json/\\1/");
-          mongoimport --host mongodb --port 27017 -u root -p secret \
-            --authenticationDatabase admin --db spend_ai --collection "$$collection" \
-            --file /data/"$$file" --jsonArray;
+          # Use the URI directly with mongoimport, add --drop for clean import
+          mongoimport --uri "mongodb://host.docker.internal:27017/spend_ai?directConnection=true" \
+            --collection "$$collection" --file "/data/$$file" --jsonArray --drop;
         done;
 
         echo "Import completed.";
@@ -91,8 +79,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    depends_on:
-      - mongodb-seed
+    depends_on: # Add dependency on the new seeding service
+      - atlas-seed
     volumes:
       - ./backend:/src/backend # Sync the source code to /src/backend
       - /src/backend/node_modules # Prevent node_modules from being overwritten
@@ -103,7 +91,7 @@ services:
       - PORT=8080
       - APP_NAME=backend
       - ENVIRONMENT=development
-      - MONGODB_URI=mongodb://root:secret@mongodb:27017/spend_ai?authSource=admin
+      - MONGODB_URI=mongodb://host.docker.internal:27017/?directConnection=true
       - JWT_SECRET=61d4c914418d42a14701d76e9c76acdf1fa86d4eaa24a2df7bb9ccb2460a0934fb0a560b6410911b5d9f89ceb7037ade7f24a991c472e85ae7f0105e899b9595
     env_file:
       - .env
@@ -122,6 +110,11 @@ services:
       - ./microservices/receipt-service:/src/receipt-service
     environment:
       - FLASK_ENV=development
+      - MONGODB_URI=mongodb://host.docker.internal:27017/?directConnection=true
+      - EMBEDDING_MODEL_NAME=all-MiniLM-L6-v2
+      - VECTOR_INDEX_NAME=vector_index # Ensure this index exists in MongoDB Atlas/local setup
+      - EMBEDDINGS_COLLECTION=receipt_embeddings
+      - DATABASE_NAME=spend_ai
     develop:
       watch:
         - path: ./microservices/receipt-service

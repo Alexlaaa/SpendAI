@@ -25,7 +25,7 @@ import {
   scryptSync,
 } from 'crypto';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserTier } from './schemas/user.schema'; // Import UserTier
+import { User, UserTier } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import { UserDocument } from './schemas/user.schema';
 import { TrackErrors } from '../metrics/function-error.decorator';
@@ -313,11 +313,17 @@ export class UserService {
     loginRequestDto: LoginRequestDto,
   ): Promise<{ user: UserResponseDto; token: string }> {
     const { username, password } = loginRequestDto;
+    this.logger.log(`Attempting login for username: ${username}`); // Log entry
+
     const user = await this.userModel.findOne({ username });
 
     if (!user || !(await argon2.verify(user.password, password))) {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
+
+    this.logger.log(
+      `Password verified for username: ${username}. Generating JWT...`,
+    ); // Log success before JWT
 
     const token = this.generateJWT(user);
     return {
@@ -331,7 +337,7 @@ export class UserService {
     console.log('generateJWT user._id:', user._id);
     return jwt.sign(
       {
-        id: user._id,
+        userId: user._id.toString(), // Corrected key name and added toString()
         username: user.username,
         email: user.email,
         tier: user.tier,

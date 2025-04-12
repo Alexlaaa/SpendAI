@@ -3,12 +3,14 @@ import { Receipt, ReceiptDocument } from './schemas/receipt.schema';
 import { CreateReceiptDto, UpdateReceiptDto, ReceiptResponseDto } from './dto';
 import * as FormData from 'form-data';
 import axios from 'axios';
+import { HttpService } from '@nestjs/axios';
 import { UserService } from '../user/user.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { parse, isValid, format } from 'date-fns';
 import { TrackErrors } from '../metrics/function-error.decorator';
 import { unparse } from 'papaparse';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class ReceiptService {
@@ -18,6 +20,7 @@ export class ReceiptService {
     @InjectModel(Receipt.name)
     private readonly receiptModel: Model<ReceiptDocument>,
     private readonly userService: UserService,
+    private readonly httpService: HttpService,
   ) {}
 
   // Stage 1: Process receipt image and return data without saving
@@ -89,6 +92,10 @@ export class ReceiptService {
     });
 
     const savedReceipt = await receipt.save();
+
+    // Asynchronously trigger embedding process (fire-and-forget)
+    this.triggerReceiptEmbedding(userId, savedReceipt);
+
     return this.buildReceiptResponse(savedReceipt);
   }
 
@@ -121,12 +128,54 @@ export class ReceiptService {
       }
     }
 
-    Object.assign(receipt, updateReceiptDto);
+    // Prepare update data, excluding the date if it wasn't provided or parsed
+    const updateData = { ...updateReceiptDto };
     if (parsedDate) {
-      receipt.date = parsedDate; // Set the parsed date
+      updateData.date = parsedDate.toISOString();
+    } else {
+      delete updateData.date; // Don't update date if not provided/parsed
     }
 
-    const updatedReceipt = await receipt.save();
+    // Use findByIdAndUpdate for potentially better atomicity
+    const updatedReceipt = await this.receiptModel
+      .findByIdAndUpdate(
+        receiptId,
+        { $set: updateData }, // Use $set to update only provided fields
+        { new: true }, // Return the updated document
+      )
+      .exec();
+
+    if (!updatedReceipt) {
+      throw new HttpException(
+        'Failed to update receipt',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    // --- Delete old embeddings first ---
+    const deleteUrl = `http://receipt-service:8081/delete-embeddings/${receiptId}`;
+    this.logger.log(
+      `Attempting to delete old embeddings for receipt ${receiptId} via ${deleteUrl}`,
+    );
+    try {
+      // Use firstValueFrom to await the Observable from HttpService
+      const deleteResponse = await firstValueFrom(
+        this.httpService.delete(deleteUrl),
+      );
+      this.logger.log(
+        `Deletion request for receipt ${receiptId} acknowledged (status: ${deleteResponse.status}). Response: ${JSON.stringify(deleteResponse.data)}`,
+      );
+    } catch (error) {
+      // Log error but proceed with re-embedding for now
+      this.logger.error(
+        `Error calling /delete-embeddings for receipt ${receiptId}: ${error.message}`,
+        error.response?.data || error.stack, // Log response data if available
+      );
+    }
+
+    // Asynchronously trigger embedding process for the updated receipt
+    this.triggerReceiptEmbedding(userId, updatedReceipt);
+
     return this.buildReceiptResponse(updatedReceipt);
   }
 
@@ -357,14 +406,13 @@ export class ReceiptService {
           itemData[`Item_${i + 1}_Cost`] = item ? item.itemCost : '';
         }
       } else {
-         // Add empty item columns if no itemizedList exists for this receipt
-         for (let i = 0; i < maxItems; i++) {
+        // Add empty item columns if no itemizedList exists for this receipt
+        for (let i = 0; i < maxItems; i++) {
           itemData[`Item_${i + 1}_Name`] = '';
           itemData[`Item_${i + 1}_Quantity`] = '';
           itemData[`Item_${i + 1}_Cost`] = '';
         }
       }
-      // Remove extra blank line
       return { ...baseData, ...itemData };
     });
 
@@ -375,14 +423,14 @@ export class ReceiptService {
       'Date',
       'TotalCost',
       'Category',
-    ]; // Format array
+    ];
     const itemHeaders = [];
     for (let i = 0; i < maxItems; i++) {
       itemHeaders.push(
         `Item_${i + 1}_Name`,
         `Item_${i + 1}_Quantity`,
         `Item_${i + 1}_Cost`,
-      ); // Format array elements
+      );
     }
     const headers = [...baseHeaders, ...itemHeaders];
     try {
@@ -396,12 +444,67 @@ export class ReceiptService {
       this.logger.error(
         `Error generating CSV for user ${userId}: ${error.message}`,
         error.stack,
-      ); // Format logger arguments
+      );
 
       throw new HttpException(
         'Failed to generate CSV data',
         HttpStatus.INTERNAL_SERVER_ERROR,
-      ); // Format exception arguments
+      );
+    }
+  }
+
+  // --- Helper to trigger embedding ---
+  private async triggerReceiptEmbedding(
+    userId: string,
+    receipt: ReceiptDocument,
+  ): Promise<void> {
+    const receiptId = receipt._id.toString();
+    // Prepare data in the format expected by the microservice
+    const receiptDataForEmbedding = {
+      merchantName: receipt.merchantName,
+      date: receipt.date ? format(receipt.date, 'yyyy-MM-dd') : null, // Format date or send null
+      totalCost: receipt.totalCost,
+      category: receipt.category,
+      itemizedList:
+        receipt.itemizedList?.map((item) => ({
+          itemName: item.itemName,
+          itemQuantity: item.itemQuantity,
+          itemCost: item.itemCost,
+        })) || [], // Ensure it's an array
+    };
+
+    const payload = {
+      userId: userId,
+      receiptId: receiptId,
+      receiptData: receiptDataForEmbedding,
+    };
+
+    const microserviceUrl = 'http://receipt-service:8081/embed-receipt';
+
+    this.logger.log(
+      `Triggering embedding for receipt ${receiptId} via ${microserviceUrl}`,
+    );
+
+    try {
+      // Make the request but don't wait for it or rely on its response here
+      this.httpService.post(microserviceUrl, payload).subscribe({
+        next: (response) => {
+          this.logger.log(
+            `Embedding request for receipt ${receiptId} acknowledged by microservice (status: ${response.status})`,
+          );
+        },
+        error: (error) => {
+          this.logger.error(
+            `Error calling /embed-receipt for receipt ${receiptId}: ${error.message}`,
+            error.stack,
+          );
+        },
+      });
+    } catch (error) {
+      this.logger.error(
+        `Synchronous error setting up embedding request for receipt ${receiptId}: ${error.message}`,
+        error.stack,
+      );
     }
   }
 }

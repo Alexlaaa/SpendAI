@@ -146,11 +146,54 @@ class OpenAIReceiptReview(AbstractReview):
             'max_tokens': self.buffer, # max number of tokens to generate
             'temperature': 1.0,
             'top_p': 1.0,
-            'response_format': self.review_schema, # Define the schema of the response
+            'response_format': {'type': 'json_object', 'schema': self.review_schema.model_json_schema()},
         }
 
+    def chat_with_prompt(self, prompt: str):
+        """
+        Sends a pre-formatted prompt directly to the LLM and returns the text response.
+        Uses a simpler generation config without a specific response format.
+        """
+        # Use a generation config without the JSON response format for freeform chat
+        chat_generation_config = {
+            'n': 1,
+            'max_tokens': self.buffer,
+            'temperature': 0.7, # Adjust temperature for chat if needed
+            'top_p': 1.0,
+            # No 'response_format' here for freeform text output
+        }
+
+        # Reset messages for this specific chat interaction or manage history appropriately
+        chat_messages = [
+            {"role": "user", "content": prompt}
+        ]
+
+        for attempt_num in range(self.max_retry):
+            print(f"Attempting chat_with_prompt (Attempt {attempt_num + 1})")
+            try:
+                # Use the standard 'create' method for non-JSON/non-parsing responses
+                response = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=chat_messages,
+                    **chat_generation_config # Use chat-specific config
+                )
+                # Return the raw text response content
+                response_content = response.choices[0].message.content
+                print(f"Chat attempt {attempt_num + 1} success.")
+                return response_content
+            except AuthenticationError:
+                 print(f"Chat attempt {attempt_num + 1} failed: AuthenticationError")
+                 raise APIKeyError() # Re-raise for handling upstream
+            except Exception as e:
+                print(f"Chat attempt {attempt_num + 1} Error: {e}")
+                # If max retry reached
+                if attempt_num + 1 == self.max_retry:
+                     print("Max retry reached for chat_with_prompt.")
+                     return None
+                continue
+        return None # Fallback if loop finishes unexpectedly
+
     def review(self, receipt_str, query):
-        # Add system instruction
         self.append_message("system", self.system_instruction)
         # Combine user prompt and image
         combined_prompt = [

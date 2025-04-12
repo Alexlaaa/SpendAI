@@ -1,0 +1,18 @@
+{
+  "name": "vector_index",
+  "database": "spend_ai",
+  "collectionName": "receipt_embeddings",
+  "mappings": {
+    "dynamic": false,
+    "fields": {
+      "embedding": {
+        "type": "knnVector",
+        "dimensions": 384,
+        "similarity": "cosine"
+          },
+          "userId": {
+            "type": "token"
+          }
+        }
+  }
+}

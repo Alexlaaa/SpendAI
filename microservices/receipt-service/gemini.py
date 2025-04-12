@@ -187,7 +187,45 @@ class GeminiReceiptReview(AbstractReview):
         # Init chat instance
         self.chat_instance = self.model.start_chat(history=[], enable_automatic_function_calling=False)
 
+    def chat_with_prompt(self, prompt: str):
+        """
+        Sends a pre-formatted prompt directly to the LLM and returns the text response.
+        Uses a simpler generation config without a response schema.
+        """
+        # Use a generation config without the JSON response schema for freeform chat
+        chat_generation_config = genai.types.GenerationConfig(
+            candidate_count=1,
+            stop_sequences=None,
+            max_output_tokens=self.buffer,
+            temperature=0.7, # Adjust temperature for chat if needed
+            top_p=1.0,
+            top_k=50,
+            # No response_mime_type or response_schema here
+        )
+        messages = [[prompt]] # Send the prompt directly
+
+        for attempt_num in range(self.max_retry):
+            print(f"Attempting chat_with_prompt (Attempt {attempt_num + 1})")
+            try:
+                self.response = self.chat_instance.send_message(
+                    messages[-1],
+                    generation_config=chat_generation_config, # Use chat-specific config
+                    safety_settings=self.safety_settings
+                )
+                # Return the raw text response
+                print(f"Chat attempt {attempt_num + 1} success.")
+                return self.response.text
+            except Exception as e:
+                print(f"Chat attempt {attempt_num + 1} Error: {e}")
+                # If max retry reached or token limit issue (simplified check)
+                if attempt_num + 1 == self.max_retry:
+                     print("Max retry reached for chat_with_prompt.")
+                     return None
+                continue
+        return None # Should not be reached if retries are handled, but as a fallback
+
     def review(self, receipt_str, query):
+        # This method remains for the original /review endpoint functionality
         messages = [[self.initial_prompt, receipt_str, query]]
 
         for attempt_num in range(self.max_retry):

@@ -37,7 +37,7 @@ export class AuthMiddleware implements NestMiddleware {
       );
       this.logger.log(`Decoded token: ${JSON.stringify(decoded)}`);
 
-      const user = await this.userService.findEntityById(decoded.id);
+      const user = await this.userService.findEntityById(decoded.userId);
       if (!user) {
         // Respond with 401 Unauthorized if the user is not found
         return res.status(HttpStatus.UNAUTHORIZED).json({
