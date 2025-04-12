@@ -17,6 +17,7 @@ import { ErrorTrackingMiddleware } from './metrics/error-tracking.middleware';
 import { RequestConcurrencyMiddleware } from './metrics/request-concurrency.middleware';
 import { DecryptMiddleware } from './shared/middleware/decrypt.middleware';
 import { AuthMiddleware } from './user/auth.middleware';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -27,9 +28,32 @@ import { AuthMiddleware } from './user/auth.middleware';
     // Set up Mongoose for MongoDB connection
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
-      }),
+      useFactory: (configService: ConfigService) => {
+        const baseUri = configService.get<string>('MONGODB_URI'); // e.g., mongodb://host.docker.internal:27017/?directConnection=true
+        const dbName = 'spend_ai';
+        let dbUri = '';
+
+        // Check if the base URI already contains query parameters
+        const queryParamIndex = baseUri.indexOf('?');
+        if (queryParamIndex !== -1) {
+          // Insert database name before query parameters
+          const pathPart = baseUri.substring(0, queryParamIndex);
+          const queryPart = baseUri.substring(queryParamIndex);
+          // Ensure the path ends with a slash before adding the db name
+          dbUri =
+            (pathPart.endsWith('/') ? pathPart : pathPart + '/') +
+            dbName +
+            queryPart;
+        } else {
+          // No query parameters, just append database name (ensure trailing slash)
+          dbUri = (baseUri.endsWith('/') ? baseUri : baseUri + '/') + dbName;
+        }
+
+        console.log(`Connecting to MongoDB at: ${dbUri}`); // Add log to confirm URI
+        return {
+          uri: dbUri,
+        };
+      },
       inject: [ConfigService],
     }),
 
@@ -37,6 +61,7 @@ import { AuthMiddleware } from './user/auth.middleware';
     ReceiptModule,
     BudgetModule,
     GoalModule,
+    ChatModule,
     MetricsModule,
     ReporterModule,
   ],
@@ -91,6 +116,8 @@ export class AppModule implements NestModule {
         { path: '/budgets/*', method: RequestMethod.ALL },
         { path: '/goals', method: RequestMethod.ALL },
         { path: '/goals/*', method: RequestMethod.ALL },
+        { path: '/chat', method: RequestMethod.ALL },
+        { path: '/chat/*', method: RequestMethod.ALL },
       );
   }
 }
