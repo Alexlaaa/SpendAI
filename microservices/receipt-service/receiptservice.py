@@ -19,10 +19,27 @@ from rag_utils import (
     get_full_receipt_details
 )
 import datetime
+from pymongo import MongoClient
+import os
 
 # Configure logging (if not already configured elsewhere)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# MongoDB connection setup
+MONGODB_URI = os.environ.get('MONGODB_URI', 'mongodb://mongodb:27017/')
+DATABASE_NAME = os.environ.get('DATABASE_NAME', 'spend_ai')
+
+try:
+    mongo_client = MongoClient(MONGODB_URI)
+    db = mongo_client[DATABASE_NAME]
+    embeddings_collection = db['receipt_embeddings']
+    logger.info(f"Connected to MongoDB at {MONGODB_URI}")
+except Exception as e:
+    logger.error(f"Error connecting to MongoDB: {e}")
+    mongo_client = None
+    db = None
+    embeddings_collection = None
 
 def create_app():
     app = Flask(__name__)
@@ -313,7 +330,7 @@ Pay down high-interest debt aggressively while exploring cheaper alternatives fo
                 
                 # 4. Get full receipt details from MongoDB
                 # Verify if we have access to the receipts collection first
-                if mongo_client and db:
+                if mongo_client is not None and db is not None:
                     try:
                         receipts_collection = db['receipts']
                         total_count = receipts_collection.count_documents({"userId": user_id})
@@ -346,7 +363,7 @@ Pay down high-interest debt aggressively while exploring cheaper alternatives fo
                     full_receipts = get_full_receipt_details(user_id, [], category_filter=detected_category)
                     
                     # FALLBACK: If no receipts found, try direct DB query instead
-                    if len(full_receipts) == 0 and mongo_client and db:
+                    if len(full_receipts) == 0 and mongo_client is not None and db is not None:
                         logger.warning(f"No receipts found with category filter. Trying direct DB query...")
                         try:
                             receipts_collection = db['receipts']
@@ -407,7 +424,7 @@ Pay down high-interest debt aggressively while exploring cheaper alternatives fo
                         
                         # Get TOTAL counts for ALL categories from the database for verification
                         try:
-                            if mongo_client and db:
+                            if mongo_client is not None and db is not None:
                                 receipts_collection = db['receipts']
                                 
                                 # Case-insensitive search for detected category
