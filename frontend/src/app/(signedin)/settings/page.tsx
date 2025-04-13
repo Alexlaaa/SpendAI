@@ -153,6 +153,7 @@ const SettingsPage = () => {
 
   return (
     <div className="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+      {/*
       <Card className="w-full">
         <form onSubmit={handleSubmit}>
           <CardHeader>
@@ -317,6 +318,7 @@ const SettingsPage = () => {
           </CardFooter>
         </form>
       </Card>
+      */}
 
       {/* Data Export Section - Always Rendered */}
       <Card className="w-full mt-6">
