@@ -17,11 +17,13 @@ category: The category of spending (Transport, Clothing, Healthcare, Food, Leisu
 date: The date of the receipt
 itemized_list: A list of line items, each containing:
     item_name: The name of the item
-    item_cost: The cost of the item
-    item_quantity: The quantity of the item
+    item_cost: REQUIRED - The cost of the item (e.g., '10.99'). If the price is not explicitly stated, estimate based on the item and total cost.
+    item_quantity: The quantity of the item as a whole number integer (like 1, 2, 3)
 """.strip()
         self.system_instruction = """You are an AI language model tasked with extracting key information from a receipt.
-If the image given is not a receipt, please return Invalid category and ignore all other fields. If the values are not present, please return 'None' for them.""".strip()
+If the image given is not a receipt, please return Invalid category and ignore all other fields. If the values are not present, please return 'None' for them.
+Always use simple formats for numbers - use whole integers for quantities (like 1, 2, 3) and avoid long decimal values.
+IMPORTANT: Each item in the itemized_list MUST include item_name, item_cost, and item_quantity. For item_cost, if the exact price is not visible, make a reasonable estimate based on the total cost.""".strip()
 
     @abstractmethod
     def parse(self, receipt_obj_list):

@@ -15,8 +15,10 @@ from rag_utils import (
     store_receipt_embedding,
     chunk_receipt_text,
     generate_embedding,
-    search_relevant_receipts
+    search_relevant_receipts,
+    get_full_receipt_details
 )
+import datetime
 
 # Configure logging (if not already configured elsewhere)
 logging.basicConfig(level=logging.INFO)
@@ -279,18 +281,265 @@ Pay down high-interest debt aggressively while exploring cheaper alternatives fo
                 retrieved_context_str = "No relevant context found."
             else:
                 # 2. Search for relevant receipt chunks
-                relevant_docs = search_relevant_receipts(user_id, query_embedding, limit=3) # Limit context size
+                relevant_docs = search_relevant_receipts(user_id, query_embedding, limit=10) # Increased context size
 
-                # 3. Format retrieved context
+                # 3. Determine if this is a category-specific query
+                # Common category keywords to detect in user queries
+                category_keywords = {
+                    'food': ['food', 'meal', 'restaurant', 'dining', 'grocery', 'eat', 'lunch', 'dinner', 'breakfast'],
+                    'transport': ['transport', 'transportation', 'travel', 'commute', 'taxi', 'uber', 'lyft', 'bus', 'train', 'mrt', 'subway', 'car'],
+                    'housing': ['housing', 'rent', 'mortgage', 'home', 'apartment', 'house', 'utilities', 'electricity', 'water', 'gas'],
+                    'clothing': ['clothing', 'clothes', 'fashion', 'apparel', 'shoes', 'wear'],
+                    'healthcare': ['healthcare', 'health', 'medical', 'doctor', 'hospital', 'medicine', 'dental', 'pharmacy'],
+                    'entertainment': ['entertainment', 'leisure', 'movie', 'concert', 'ticket', 'show', 'game', 'fun', 'recreation'],
+                    'education': ['education', 'school', 'tuition', 'course', 'class', 'book', 'learning', 'training']
+                }
+                
+                detected_category = None
+                user_message_lower = user_message.lower()
+                
+                # Check if user is asking about a specific category
+                for category, keywords in category_keywords.items():
+                    if any(keyword in user_message_lower for keyword in keywords):
+                        detected_category = category
+                        logger.info(f"Detected category query for: {detected_category}")
+                        break
+                
+                # Get receipt IDs from vector search if we're not using category filter
+                unique_receipt_ids = []
+                if not detected_category:
+                    unique_receipt_ids = list(set([doc['receiptId'] for doc in relevant_docs if 'receiptId' in doc]))
+                    logger.info(f"Found {len(unique_receipt_ids)} unique receipt IDs from vector search")
+                
+                # 4. Get full receipt details from MongoDB
+                # Verify if we have access to the receipts collection first
+                if mongo_client and db:
+                    try:
+                        receipts_collection = db['receipts']
+                        total_count = receipts_collection.count_documents({"userId": user_id})
+                        logger.info(f"Total user receipts in database: {total_count}")
+                        
+                        # Also count by category with direct query for diagnostics
+                        if detected_category:
+                            import re
+                            category_regex = re.compile(f"^{detected_category}$", re.IGNORECASE)
+                            category_count = receipts_collection.count_documents({
+                                "userId": user_id,
+                                "category": {"$regex": category_regex}
+                            })
+                            all_food_count = receipts_collection.count_documents({
+                                "userId": user_id,
+                                "category": {"$regex": re.compile("food", re.IGNORECASE)}
+                            })
+                            logger.info(f"Database has {category_count} receipts in category: {detected_category}")
+                            logger.info(f"Database has {all_food_count} receipts with 'food' in category (case insensitive)")
+                            
+                            # Diagnostic: list all categories in the database
+                            all_categories = receipts_collection.distinct("category", {"userId": user_id})
+                            logger.info(f"All categories in database: {all_categories}")
+                    except Exception as e:
+                        logger.error(f"Error querying database for diagnostics: {e}")
+                
+                # If category detected, query all receipts in that category
+                if detected_category:
+                    logger.info(f"Querying ALL receipts in category: {detected_category}")
+                    full_receipts = get_full_receipt_details(user_id, [], category_filter=detected_category)
+                    
+                    # FALLBACK: If no receipts found, try direct DB query instead
+                    if len(full_receipts) == 0 and mongo_client and db:
+                        logger.warning(f"No receipts found with category filter. Trying direct DB query...")
+                        try:
+                            receipts_collection = db['receipts']
+                            import re
+                            category_regex = re.compile(f"^{detected_category}$", re.IGNORECASE)
+                            full_receipts = list(receipts_collection.find({
+                                "userId": user_id,
+                                "category": {"$regex": category_regex}
+                            }))
+                            logger.info(f"Direct DB query found {len(full_receipts)} receipts")
+                        except Exception as e:
+                            logger.error(f"Error in fallback direct DB query: {e}")
+                else:
+                    full_receipts = get_full_receipt_details(user_id, unique_receipt_ids)
+                
+                logger.info(f"Retrieved {len(full_receipts)} complete receipts from database")
+                
+                # 5. Format context with both chunks and detailed receipt data
                 if relevant_docs:
-                    retrieved_context_str = "Here's some potentially relevant context from your receipts:\n"
+                    # First include the vector search results
+                    retrieved_context_str = "Here are relevant receipt chunks based on your query:\n"
                     for doc in relevant_docs:
-                        retrieved_context_str += f"- {doc['textChunk']} (Relevance score: {doc['score']:.4f})\n"
-                    retrieved_context_str = retrieved_context_str.strip()
+                        retrieved_context_str += f"- {doc['textChunk']}\n"
+                    
+                    # Then add detailed receipt information
+                    if full_receipts:
+                        # Group receipts by category for easier analysis
+                        category_receipts = {}
+                        category_totals = {}
+                        
+                        # First pass: organize receipts by category and calculate category totals
+                        for receipt in full_receipts:
+                            category = receipt.get('category', 'Unknown')
+                            if category not in category_receipts:
+                                category_receipts[category] = []
+                                category_totals[category] = 0
+                                
+                            category_receipts[category].append(receipt)
+                            total = receipt.get('totalCost', 0)
+                            
+                            # Detailed logging for receipt values
+                            receipt_id = str(receipt.get('_id', 'unknown'))
+                            merchant = receipt.get('merchantName', 'N/A')
+                            logger.info(f"Processing receipt: {receipt_id} - {merchant} - Category: {category} - Total: {total}")
+                            
+                            # Ensure total is a number
+                            if isinstance(total, str):
+                                try:
+                                    total = float(total.replace('$', '').strip())
+                                except ValueError:
+                                    total = 0
+                            elif total is None:
+                                total = 0
+                                
+                            # Add to category total and log the addition
+                            category_totals[category] += float(total)
+                            logger.info(f"Added {total} to {category} total, new total: {category_totals[category]}")
+                        
+                        # Get TOTAL counts for ALL categories from the database for verification
+                        try:
+                            if mongo_client and db:
+                                receipts_collection = db['receipts']
+                                
+                                # Case-insensitive search for detected category
+                                match_stage = {'$match': {'userId': user_id}}
+                                if detected_category:
+                                    import re
+                                    category_regex = re.compile(f"^{detected_category}$", re.IGNORECASE)
+                                    match_stage = {'$match': {
+                                        'userId': user_id, 
+                                        'category': {'$regex': category_regex}
+                                    }}
+                                    logger.info(f"Applying category filter with regex: {category_regex.pattern}")
+                                
+                                # Query to get counts and sums by category for this user
+                                pipeline = [
+                                    match_stage,
+                                    {'$group': {
+                                        '_id': '$category', 
+                                        'count': {'$sum': 1},
+                                        'total': {'$sum': {'$toDouble': {'$ifNull': ['$totalCost', 0]}}},
+                                        'merchants': {'$addToSet': '$merchantName'},
+                                        'receipts': {'$push': {
+                                            'id': {'$toString': '$_id'},
+                                            'merchant': '$merchantName',
+                                            'date': '$date',
+                                            'total': '$totalCost'
+                                        }}
+                                    }}
+                                ]
+                                
+                                # Execute the aggregation
+                                all_category_stats = list(receipts_collection.aggregate(pipeline))
+                                
+                                # Log the database-calculated totals
+                                logger.info("=== DATABASE CALCULATED CATEGORY TOTALS ===")
+                                db_total_spending = 0
+                                for stat in all_category_stats:
+                                    category_name = stat['_id']
+                                    category_total = stat['total']
+                                    count = stat['count']
+                                    logger.info(f"DB CATEGORY: {category_name} - COUNT: {count} - TOTAL: ${category_total:.2f}")
+                                    db_total_spending += category_total
+                                    
+                                    # Update the category totals with the database values for accuracy
+                                    if category_name in category_totals:
+                                        if abs(category_totals[category_name] - category_total) > 0.01:  # If difference > 1 cent
+                                            logger.warning(f"Correcting {category_name} total from ${category_totals[category_name]:.2f} to ${category_total:.2f}")
+                                            category_totals[category_name] = category_total
+                                
+                                logger.info(f"DB TOTAL SPENDING ACROSS ALL CATEGORIES: ${db_total_spending:.2f}")
+                        except Exception as e:
+                            logger.error(f"Error calculating database totals: {e}")
+                        
+                        # Log the final calculated category totals
+                        logger.info("=== FINAL CALCULATED CATEGORY TOTALS (after DB validation) ===")
+                        total_spending = 0
+                        for category, total in category_totals.items():
+                            logger.info(f"CATEGORY: {category} - TOTAL: ${total:.2f}")
+                            total_spending += total
+                        logger.info(f"TOTAL SPENDING ACROSS ALL CATEGORIES: ${total_spending:.2f}")
+                        
+                        # Create an explicit category summary at the VERY beginning for the LLM
+                        summary_context = "\n\n=== ACCURATE CATEGORY TOTALS (MUST USE THESE EXACT FIGURES) ===\n"
+                        for category_name, total in category_totals.items():
+                            if detected_category and detected_category.lower() == category_name.lower():
+                                summary_context += f"TOTAL FOR {category_name.upper()} CATEGORY: ${total:.2f} (THIS IS THE CORRECT NUMBER)\n"
+                                
+                        # Insert summary at the BEGINNING of the context
+                        retrieved_context_str = summary_context + retrieved_context_str
+                        
+                        # Add category-based organization with totals
+                        retrieved_context_str += "\n\n=== RECEIPTS BY CATEGORY WITH PRE-CALCULATED TOTALS ===\n"
+                        for category, total in category_totals.items():
+                            category_emphasis = ""
+                            if detected_category and detected_category.lower() == category.lower():
+                                category_emphasis = " - THIS IS THE CATEGORY YOU WERE ASKED ABOUT"
+                            retrieved_context_str += f"\n## CATEGORY: {category.upper()} - TOTAL: ${total:.2f} (USE THIS EXACT TOTAL){category_emphasis}\n"
+                            # List all receipts in this category
+                            for receipt in category_receipts[category]:
+                                receipt_id = str(receipt.get('_id', 'unknown'))
+                                merchant = receipt.get('merchantName', 'N/A')
+                                date = receipt.get('date', 'N/A')
+                                if isinstance(date, datetime.datetime):
+                                    date = date.strftime('%Y-%m-%d')
+                                total = receipt.get('totalCost', 'N/A')
+                                
+                                retrieved_context_str += f"* RECEIPT ID: {receipt_id}\n"
+                                retrieved_context_str += f"  Merchant: {merchant}\n"
+                                retrieved_context_str += f"  Date: {date}\n"
+                                retrieved_context_str += f"  Total: ${total}\n"
+                                
+                                # Add itemized list if available
+                                items = receipt.get('itemizedList', [])
+                                if items:
+                                    retrieved_context_str += "  Items:\n"
+                                    for item in items:
+                                        item_name = item.get('itemName', 'unknown')
+                                        item_qty = item.get('itemQuantity', 1)
+                                        item_cost = item.get('itemCost', 0)
+                                        retrieved_context_str += f"    - {item_name}: {item_qty} x ${item_cost}\n"
+                        
+                        # Also include full individual receipt details for completeness
+                        retrieved_context_str += "\n\n=== COMPLETE RECEIPT DETAILS ===\n"
+                        for receipt in full_receipts:
+                            receipt_id = str(receipt.get('_id', 'unknown'))
+                            merchant = receipt.get('merchantName', 'N/A')
+                            date = receipt.get('date', 'N/A')
+                            if isinstance(date, datetime.datetime):
+                                date = date.strftime('%Y-%m-%d')
+                            category = receipt.get('category', 'N/A')
+                            total = receipt.get('totalCost', 'N/A')
+                            
+                            retrieved_context_str += f"\nRECEIPT ID: {receipt_id}\n"
+                            retrieved_context_str += f"Merchant: {merchant}\n"
+                            retrieved_context_str += f"Date: {date}\n"
+                            retrieved_context_str += f"Category: {category}\n"
+                            retrieved_context_str += f"Total: ${total}\n"
+                            
+                            # Add itemized list if available
+                            items = receipt.get('itemizedList', [])
+                            if items:
+                                retrieved_context_str += "Items:\n"
+                                for item in items:
+                                    item_name = item.get('itemName', 'unknown')
+                                    item_qty = item.get('itemQuantity', 1)
+                                    item_cost = item.get('itemCost', 0)
+                                    retrieved_context_str += f"  - {item_name}: {item_qty} x ${item_cost}\n"
                 else:
                     retrieved_context_str = "No relevant context found in your receipts for this query."
 
-            logger.info(f"Retrieved Context:\n{retrieved_context_str}")
+            logger.info(f"Retrieved Context (truncated):\n{retrieved_context_str[:500]}...")
+            logger.debug(f"Full context length: {len(retrieved_context_str)} characters")
 
             # 4. Construct the prompt for the LLM
             # Combine history, new message, and context
@@ -307,10 +556,15 @@ Current User Query:
 USER: {user_message}
 
 Analyze the provided conversation history and receipt context to answer the user's query.
-- If the query asks for insights on a specific category (like 'food', 'transport', etc.), try to summarize spending patterns or list relevant items/merchants found within THAT category in the provided context. Calculate totals if possible from the context.
-- For general insight queries, summarize the key spending areas reflected in the context.
-- If the context is insufficient to fully answer, clearly state what information you can provide based on the limited context and mention that more data might be needed for a complete picture.
-- Base your answer ONLY on the provided history and context. Do not make up information.
+- IMPORTANT: When reporting financial information, carefully calculate ALL totals accurately. Add up ALL individual values when reporting category totals. Double-check your math.
+- If the query asks for insights on a specific category (like 'food', 'transport', etc.), add up all the relevant receipts in that category to calculate the EXACT total amount spent. List all merchants and amounts in that category.
+- Always verify numerical consistency in your response. Ensure that individual expenses add up to reported totals.
+- For category analysis, first identify ALL receipts in the requested category, list them with their totals, and then sum them accurately.
+- Structure your response into paragraphs for readability.
+- Write plain text responses - do NOT use markdown formatting with asterisks, backticks, or escaped characters.
+- Use the dollar symbol '$' directly without escaping it. For example, write '$10.50' not '\\$10.50'.
+- If you need to make an inference based on limited data, do so confidently based on what information is available, without mentioning limitations in the data.
+- Base your answer ONLY on the provided history and context. Do not make up information that contradicts the available data, but you can make reasonable inferences from it.
 AI:"""
 
             logger.debug(f"Constructed LLM Prompt:\n{prompt}")

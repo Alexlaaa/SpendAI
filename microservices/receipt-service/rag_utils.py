@@ -45,6 +45,63 @@ except Exception as e:
 
 # --- Functions ---
 
+def get_full_receipt_details(user_id: str, receipt_ids: list[str], category_filter=None):
+    """
+    Fetches complete receipt details from the main receipts collection.
+    
+    Args:
+        user_id: User ID to fetch receipts for
+        receipt_ids: List of receipt IDs to fetch details for
+        category_filter: Optional category name to filter by
+        
+    Returns:
+        List of complete receipt documents
+    """
+    if mongo_client is None or db is None:
+        logger.error("MongoDB connection not available for receipt lookup.")
+        return []
+    
+    try:
+        # Connect to the receipts collection
+        receipts_collection = db['receipts']
+        
+        # Build the query based on inputs
+        if category_filter:
+            # Query by user ID and category - use regex for case insensitive match
+            logger.info(f"Querying ALL receipts for user {user_id} in category: {category_filter}")
+            import re
+            category_regex = re.compile(f"^{category_filter}$", re.IGNORECASE)
+            query = {
+                "userId": user_id,
+                "category": {"$regex": category_regex}
+            }
+        else:
+            # Convert string IDs to ObjectId if needed
+            from bson.objectid import ObjectId
+            object_ids = []
+            for rid in receipt_ids:
+                try:
+                    object_ids.append(ObjectId(rid))
+                except Exception as e:
+                    logger.warning(f"Could not convert receipt ID {rid} to ObjectId: {e}")
+            
+            # Query for the receipts with both the user ID and the receipt IDs
+            query = {
+                "userId": user_id,
+                "_id": {"$in": object_ids}
+            }
+            logger.info(f"Querying receipts collection for {len(object_ids)} receipts for user {user_id}")
+        
+        # Execute the query
+        receipts = list(receipts_collection.find(query))
+        logger.info(f"Found {len(receipts)} complete receipt documents")
+        
+        # Return the full receipt data
+        return receipts
+    except Exception as e:
+        logger.error(f"Error fetching receipt details: {e}")
+        return []
+
 def generate_embedding(text: str):
     """Generates an embedding for the given text using the loaded model."""
     if not embedding_model:
@@ -141,38 +198,50 @@ def search_relevant_receipts(user_id: str, query_embedding, limit=5):
 # --- Helper for Text Chunking (Example) ---
 # Improved chunking strategy
 def chunk_receipt_text(receipt_data: dict) -> list[str]:
-    """Chunks receipt data into potentially more searchable text pieces."""
+    """Chunks receipt data into potentially more searchable text pieces with detailed item information."""
     chunks = []
     merchant = receipt_data.get('merchantName', 'N/A')
     receipt_date = receipt_data.get('date', 'N/A') # Already formatted YYYY-MM-DD or None
     category = receipt_data.get('category', 'N/A')
     total = receipt_data.get('totalCost', 'N/A')
+    receipt_id = str(receipt_data.get('_id', 'unknown'))
 
-    # Chunk 1: Basic info string
-    chunks.append(f"Receipt from {merchant} on {receipt_date}. Category: {category}. Total: {total}.")
+    # Chunk 1: Basic info string with receipt ID for lookup
+    chunks.append(f"Receipt ID: {receipt_id} from {merchant} on {receipt_date}. Category: {category}. Total: {total}.")
 
-    # Chunk 2: Merchant Name alone (might help direct queries)
+    # Chunk 2: Merchant-specific chunk with date and receipt ID
     if merchant != 'N/A':
-        chunks.append(f"Merchant: {merchant}")
+        chunks.append(f"Purchase at {merchant} on {receipt_date}. Receipt ID: {receipt_id}. Category: {category}. Total: {total}.")
 
-    # Chunk 3: Category alone
+    # Chunk 3: Category-specific chunk with merchant
     if category != 'N/A':
-         chunks.append(f"Category: {category}")
+         chunks.append(f"Category {category} purchase at {merchant} on {receipt_date}. Receipt ID: {receipt_id}. Total: {total}.")
 
-    # Chunk 4+: Individual Items
+    # Individual Items with more detailed context
     item_list = receipt_data.get('itemizedList', [])
     if item_list:
+        # Chunk 4: All items together for overview queries
+        all_items = ", ".join([f"{item.get('itemName', 'unknown item')} (${item.get('itemCost', 'N/A')})" for item in item_list])
+        chunks.append(f"Receipt from {merchant} on {receipt_date} includes: {all_items}. Receipt ID: {receipt_id}.")
+        
+        # Chunk 5+: Individual items with full receipt context
         for item in item_list:
             item_name = item.get('itemName', 'N/A')
             item_qty = item.get('itemQuantity', 1)
             item_cost = item.get('itemCost', 'N/A')
-            # Create a chunk for each item
-            chunks.append(f"Item: {item_name}, Quantity: {item_qty}, Cost: {item_cost}")
+            
+            # Create a detailed chunk for each item that includes merchant and receipt context
+            chunks.append(f"Purchased {item_name} at {merchant} on {receipt_date}. Quantity: {item_qty}, Cost: ${item_cost}. "
+                          f"Part of {category} purchase, total receipt: ${total}. Receipt ID: {receipt_id}.")
+            
+            # Also create an item-only chunk for direct item queries
+            chunks.append(f"Item: {item_name}, Quantity: {item_qty}, Cost: ${item_cost}. "
+                          f"Purchased at {merchant} on {receipt_date}. Receipt ID: {receipt_id}.")
 
     # Filter out empty or meaningless chunks if any were generated
     final_chunks = [chunk for chunk in chunks if chunk and len(chunk.strip()) > 5] # Basic filter
 
-    logger.debug(f"Generated {len(final_chunks)} chunks for receipt.")
+    logger.debug(f"Generated {len(final_chunks)} chunks for receipt {receipt_id}.")
     return final_chunks
 
 # Import datetime at the end to avoid potential circular dependency if other modules import this

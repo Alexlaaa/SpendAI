@@ -105,7 +105,36 @@ class Receipt:
     def parse_itemized_list(itemized_list: List[Item]):
         # Loop each item and parse the cost
         for item_dict in itemized_list:
+            # Handle missing item_cost
+            if 'item_cost' not in item_dict or not item_dict['item_cost']:
+                print(f"Warning: Missing item_cost for '{item_dict.get('item_name', 'unknown item')}', defaulting to '0.00'")
+                item_dict['item_cost'] = '0.00'
+                
+            # Parse the cost
             item_dict['item_cost'] = Receipt.parse_total_cost(item_dict['item_cost'])
+            
+            # Ensure item_quantity is an integer with robust error handling
+            try:
+                # If it's already an int, great
+                if isinstance(item_dict['item_quantity'], int):
+                    pass
+                # If it's a string, convert to int
+                elif isinstance(item_dict['item_quantity'], str):
+                    # Handle case where it might be a string with a decimal point
+                    if '.' in item_dict['item_quantity']:
+                        item_dict['item_quantity'] = int(float(item_dict['item_quantity']))
+                    else:
+                        item_dict['item_quantity'] = int(item_dict['item_quantity'])
+                # If it's a float, convert to int
+                elif isinstance(item_dict['item_quantity'], float):
+                    item_dict['item_quantity'] = int(item_dict['item_quantity'])
+                else:
+                    # Default to 1 if we can't parse it
+                    print(f"Warning: Couldn't parse item quantity '{item_dict['item_quantity']}', defaulting to 1")
+                    item_dict['item_quantity'] = 1
+            except (ValueError, TypeError) as e:
+                print(f"Error parsing item quantity: {e}, defaulting to 1")
+                item_dict['item_quantity'] = 1
 
         return itemized_list
 

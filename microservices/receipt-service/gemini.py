@@ -45,9 +45,10 @@ class GeminiReceiptParser(AbstractParser):
                         type=genai.protos.Type.OBJECT,
                         properties={
                             'item_name': genai.protos.Schema(type=genai.protos.Type.STRING),
-                            'item_cost': genai.protos.Schema(type=genai.protos.Type.STRING),
-                            'item_quantity': genai.protos.Schema(type=genai.protos.Type.STRING),
-                        }
+                            'item_cost': genai.protos.Schema(type=genai.protos.Type.STRING, description="Required. The cost of the item in decimal format (e.g., '10.99')"),
+                            'item_quantity': genai.protos.Schema(type=genai.protos.Type.INTEGER),
+                        },
+                        required=['item_name', 'item_cost', 'item_quantity']
                     )
                 )
             },
@@ -107,6 +108,8 @@ class GeminiReceiptParser(AbstractParser):
 
             # Attempt to parse the receipt
             try:
+                # Log the raw response text before attempting to parse
+                print(f"Raw Gemini Response Text (Attempt {attempt_num + 1}): {self.response.text}")
                 receipt_dict = json.loads(self.response.text)
 
                 # If model returns None for all fields, return None
@@ -118,19 +121,25 @@ class GeminiReceiptParser(AbstractParser):
                 print(f"Attempt {attempt_num + 1} Success")
 
                 return receipt_instance
-            except ReceiptError as e:
-                print(f"Attempt {attempt_num + 1} Error: {e}")
+            # Catch both ReceiptError and JSONDecodeError
+            except (ReceiptError, json.JSONDecodeError) as e:
+                print(f"Attempt {attempt_num + 1} Error during parsing: {e}")
+                # Log the raw text if it was a JSONDecodeError
+                if isinstance(e, json.JSONDecodeError):
+                    print(f"Failed to parse JSON: {self.response.text}")
 
                 # If max retry reached or token limit reached, return None
                 if (attempt_num + 1 == self.max_retry or
                         self.response.usage_metadata.total_token_count +
                         self.get_token_count(str(e)) + self.buffer >
                         self.model_info.input_token_limit):
-                    print("Max retry reached. Unable to parse receipt.")
+                    print("Max retry reached or token limit exceeded. Unable to parse receipt.")
                     return None
 
                 # Still have retries left, retry
-                messages.append([str(e)])
+                # Provide feedback to the model about the error
+                error_feedback = f"Parsing failed with error: {e}. Please check the JSON format and try again."
+                messages.append([error_feedback])
                 continue
 
         return None
