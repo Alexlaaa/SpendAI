@@ -1,10 +1,11 @@
 "use client";
 
 import * as React from "react";
+import { useState } from "react"; // Import useState
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { format } from "date-fns";
+import { format, startOfMonth } from "date-fns"; // Import startOfMonth
 import { CalendarIcon, Trash2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -99,6 +100,9 @@ export function BudgetForm({
   isLoading = false,
   onDelete,
 }: BudgetFormProps) {
+  // State for controlling Popover open status (only EndDate needed now)
+  const [isEndDatePopoverOpen, setIsEndDatePopoverOpen] = useState(false);
+
   const form = useForm<BudgetFormValues>({
     resolver: zodResolver(budgetFormSchema),
     defaultValues: initialData,
@@ -108,8 +112,14 @@ export function BudgetForm({
   const watchPeriod = form.watch("period");
 
   function handleFormSubmit(data: BudgetFormValues) {
-    console.log("Submitting budget data:", data);
-    onSubmit(data);
+    // Calculate start date as the first day of the current month
+    const calculatedStartDate = startOfMonth(new Date());
+    const submissionData = {
+      ...data,
+      startDate: calculatedStartDate,
+    };
+    console.log("Submitting budget data:", submissionData);
+    onSubmit(submissionData); // Pass data with calculated start date
   }
 
   function onError(errors: any) {
@@ -222,47 +232,7 @@ export function BudgetForm({
           )}
         />
 
-        {/* Start Date */}
-        <FormField
-          control={form.control}
-          name="startDate"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Start Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-full pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                      disabled={isLoading}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) => isLoading}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {/* Start Date Field Removed */}
 
         {/* End Date (Conditional) */}
         {watchPeriod === "custom" && (
@@ -272,7 +242,8 @@ export function BudgetForm({
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>End Date</FormLabel>
-                <Popover>
+                 {/* Control Popover open state */}
+                <Popover open={isEndDatePopoverOpen} onOpenChange={setIsEndDatePopoverOpen}>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
@@ -292,16 +263,24 @@ export function BudgetForm({
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent
+                    className="w-auto p-0"
+                    align="start"
+                    onInteractOutside={(e) => {
+                      e.preventDefault(); // Prevent closing Dialog when interacting with Calendar
+                    }}
+                  >
                     <Calendar
                       mode="single"
                       selected={field.value}
-                      onSelect={field.onChange}
+                      onSelect={(date, selectedDay, activeModifiers, e) => {
+                        field.onChange(date); // Update form value
+                        setIsEndDatePopoverOpen(false); // Explicitly close popover
+                        e?.stopPropagation(); // Keep stopping propagation just in case
+                      }}
                       disabled={(date) =>
-                        // Disable dates before start date or other logic
-                        (form.getValues("startDate") &&
-                          date <= form.getValues("startDate")) ||
-                        isLoading
+                        // Disable dates before the calculated start of the current month
+                        date <= startOfMonth(new Date()) || isLoading
                       }
                       initialFocus
                     />

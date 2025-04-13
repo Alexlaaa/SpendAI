@@ -44,7 +44,8 @@ import {
 } from "date-fns";
 import { BudgetProgress } from "@/components/ui/BudgetProgress";
 
-type EditingBudgetData = BudgetFormValues & { _id: string };
+// Adjust EditingBudgetData: Omit startDate as it's no longer part of the form's initial data
+type EditingBudgetData = Omit<BudgetFormValues, "startDate"> & { _id: string };
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -161,10 +162,13 @@ const HomePage = () => {
 
   // Handler for opening the edit dialog
   const handleEditBudgetClick = (budget: Budget) => {
-    // Parse dates back to Date objects for the form
-    const formData = {
-      ...budget,
-      startDate: parseISO(budget.startDate),
+    // Prepare form data, omitting the startDate
+    const formData: EditingBudgetData = {
+      _id: budget._id,
+      category: budget.category,
+      amount: budget.amount,
+      period: budget.period,
+      // startDate is omitted
       endDate: budget.endDate ? parseISO(budget.endDate) : undefined,
     };
     setEditingBudget(formData);
@@ -271,6 +275,7 @@ const HomePage = () => {
                     Set New Budget
                   </Button>
                 </DialogTrigger>
+                {/* Reverted onInteractOutside */}
                 <DialogContent className="sm:max-w-[425px]">
                   <DialogHeader>
                     {/* Dynamic Dialog Title */}
@@ -291,6 +296,7 @@ const HomePage = () => {
                     }
                   />
                 </DialogContent>
+                {/* Removed the duplicate DialogContent block */}
               </Dialog>
             </div>
             {/* Budget Display */}
