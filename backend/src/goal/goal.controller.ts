@@ -21,11 +21,10 @@ import {
   ApiResponse,
   ApiBearerAuth,
   ApiParam,
-  // ApiProperty, // Removed unused import
 } from '@nestjs/swagger';
 import { AuthMiddleware } from '../user/auth.middleware';
-import { User as GetUser } from '../user/user.decorator';
-import { AuthenticatedUser } from './goal.service';
+import { User } from '../user/user.decorator';
+import { AuthenticatedUserPayload } from '@/shared/types/auth.types';
 import { GoalResponseDto } from './dto/goal-response.dto';
 import { ParseObjectIdPipe } from '../shared/pipes/parse-object-id.pipe';
 import { RequiredTier, TierGuard } from '../shared/guards/tier.guard';
@@ -53,9 +52,9 @@ export class GoalController {
   @ApiResponse({ status: 403, description: 'Forbidden (Insufficient Tier).' })
   create(
     @Body() createGoalDto: CreateGoalDto,
-    @GetUser() user: AuthenticatedUser,
+    @User() user: AuthenticatedUserPayload,
   ): Promise<GoalResponseDto> {
-    this.logger.log(`Received request to create goal for user ${user.id} `);
+    this.logger.log(`Received request to create goal for user ${user.userId} `);
     return this.goalService.create(createGoalDto, user);
   }
 
@@ -69,8 +68,11 @@ export class GoalController {
   })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden (Insufficient Tier).' })
-  findAll(@GetUser() user: AuthenticatedUser): Promise<GoalResponseDto[]> {
-    this.logger.log(`Received request to find all goals for user ${user.id} `);
+  findAll(@User() user: AuthenticatedUserPayload): Promise<GoalResponseDto[]> {
+    // Use correct type
+    this.logger.log(
+      `Received request to find all goals for user ${user.userId} `,
+    );
     return this.goalService.findAll(user);
   }
 
@@ -88,9 +90,11 @@ export class GoalController {
   @ApiResponse({ status: 404, description: 'Goal not found.' })
   findOne(
     @Param('id', ParseObjectIdPipe) id: string,
-    @GetUser() user: AuthenticatedUser,
+    @User() user: AuthenticatedUserPayload,
   ): Promise<GoalResponseDto> {
-    this.logger.log(`Received request to find goal ${id} for user ${user.id} `);
+    this.logger.log(
+      `Received request to find goal ${id} for user ${user.userId} `,
+    );
     return this.goalService.findOne(id, user);
   }
 
@@ -110,10 +114,10 @@ export class GoalController {
   update(
     @Param('id', ParseObjectIdPipe) id: string,
     @Body() updateGoalDto: UpdateGoalDto,
-    @GetUser() user: AuthenticatedUser,
+    @User() user: AuthenticatedUserPayload,
   ): Promise<GoalResponseDto> {
     this.logger.log(
-      `Received request to update goal ${id} for user ${user.id} `,
+      `Received request to update goal ${id} for user ${user.userId} `,
     );
     return this.goalService.update(id, updateGoalDto, user);
   }
@@ -132,10 +136,10 @@ export class GoalController {
   @ApiResponse({ status: 404, description: 'Goal not found.' })
   remove(
     @Param('id', ParseObjectIdPipe) id: string,
-    @GetUser() user: AuthenticatedUser,
+    @User() user: AuthenticatedUserPayload,
   ): Promise<void> {
     this.logger.log(
-      `Received request to delete goal ${id} for user ${user.id} `,
+      `Received request to delete goal ${id} for user ${user.userId} `,
     );
     return this.goalService.remove(id, user);
   }
@@ -152,17 +156,17 @@ export class GoalController {
   @ApiResponse({
     status: 400,
     description: 'Bad Request (e.g., invalid amount).',
-  }) // Correct formatting
+  })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden (Insufficient Tier).' })
   @ApiResponse({ status: 404, description: 'Goal not found.' })
   async addContribution(
     @Param('id', ParseObjectIdPipe) id: string,
     @Body() addContributionDto: AddContributionDto,
-    @GetUser() user: AuthenticatedUser,
+    @User() user: AuthenticatedUserPayload,
   ): Promise<GoalResponseDto> {
     this.logger.log(
-      `Received request to add contribution to goal ${id} for user ${user.id}`,
+      `Received request to add contribution to goal ${id} for user ${user.userId}`,
     );
     return this.goalService.addContribution(
       id,

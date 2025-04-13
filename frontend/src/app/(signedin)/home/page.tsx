@@ -10,7 +10,7 @@ import {
   ReceiptResponse,
 } from "@/components/table/transactionCols";
 import { useReceipt } from "@/hooks/useReceipt";
-import AIAnalysis from "@/components/shared/AIAnalysis";
+// import AIAnalysis from "@/components/shared/AIAnalysis"; // Removed old AI component
 import DonutPieChart from "@/components/charts/donutpiechart";
 import { BudgetForm, BudgetFormValues } from "@/components/forms/BudgetForm";
 import {
@@ -260,10 +260,6 @@ const HomePage = () => {
         </div>
       ) : (
         <>
-          {/* AI Analysis */}
-          <div className="w-full flex justify-center">
-            <AIAnalysis />
-          </div>
           {/* Budget Section Placeholder */}
           <div className="bg-card p-4 rounded-lg shadow">
             <div className="flex justify-between items-center mb-4">

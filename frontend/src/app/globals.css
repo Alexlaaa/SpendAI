@@ -79,11 +79,13 @@ html {
 
 
 @layer base {
+  /* Removed h-full overflow-hidden from html, body */
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+    /* Remove h-full from here if added above */
   }
 }
 

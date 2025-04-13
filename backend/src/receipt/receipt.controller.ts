@@ -20,7 +20,6 @@ import { CreateReceiptDto, UpdateReceiptDto, ReceiptResponseDto } from './dto';
 import { ValidationPipe } from '../shared/pipes/validation.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { User } from '../user/user.decorator';
-import { AuthenticatedUser } from '../goal/goal.service';
 import { RequiredTier, TierGuard } from '../shared/guards/tier.guard';
 import { UserTier } from '../user/schemas/user.schema';
 import {
@@ -30,6 +29,7 @@ import {
   ApiConsumes,
   ApiBearerAuth,
 } from '@nestjs/swagger';
+import { AuthenticatedUserPayload } from '@/shared/types/auth.types';
 
 @ApiTags('receipts')
 @Controller('receipts')
@@ -177,16 +177,14 @@ export class ReceiptController {
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden (Insufficient Tier).' })
   async exportReceipts(
-    @User() user: AuthenticatedUser,
+    @User() user: AuthenticatedUserPayload,
     @Res() res: Response,
   ): Promise<void> {
     this.logger.log(
-      `Received request to export receipts for user ${user.id}  `,
+      `Received request to export receipts for user ${user.userId}  `,
     );
     // Assuming service expects string ID based on other methods
-    const csvData = await this.receiptService.exportReceiptsAsCsv(
-      user._id.toString(),
-    );
+    const csvData = await this.receiptService.exportReceiptsAsCsv(user.userId);
 
     // Set headers for CSV download
     const filename = `spendai_receipts_${new Date().toISOString().split('T')[0]}.csv`;

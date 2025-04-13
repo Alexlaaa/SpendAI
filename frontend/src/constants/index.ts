@@ -54,6 +54,14 @@ export const sideBarLinks = [
     icon: "/icons/pricing.svg",
   },
   {
+    id: "navLinkChat", // New ID for Chat
+    position: "top",
+    label: "Chat",
+    route: "/chat",
+    icon: "/icons/bot.svg", // Use bot icon
+    requiredTier: "tier3", // Add tier requirement
+  },
+  {
     id: "navLink6",
     position: "bot",
     label: "Settings",
@@ -84,8 +92,8 @@ export const pricingPlans = [
   },
   {
     name: "Tier 2",
-    price: "10",
-    yearlyPrice: "96",
+    price: "2",
+    yearlyPrice: "19.20",
     period: "month",
     features: [
       "All Tier 1 features",
@@ -99,8 +107,8 @@ export const pricingPlans = [
   },
   {
     name: "Tier 3",
-    price: "25",
-    yearlyPrice: "240",
+    price: "5",
+    yearlyPrice: "48",
     period: "month",
     features: ["All Tier 2 features", "AI Chatbot", "Priority Support"],
     description: "Comprehensive tools for individuals and families.",
