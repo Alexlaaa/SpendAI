@@ -78,8 +78,8 @@
     "$oid": "67f8e4d3acc79ca5904ec58c"
   },
   "name": "Save for Thailand Trip",
-  "targetAmount": 5000,
-  "currentAmount": 5000,
+  "targetAmount": 10000,
+  "currentAmount": 2500,
   "deadline": {
     "$date": "2025-12-15T00:00:00.000Z"
   },
@@ -101,7 +101,7 @@
     "$date": "2025-04-11T09:45:55.963Z"
   },
   "updatedAt": {
-    "$date": "2025-04-11T09:47:42.135Z"
+    "$date": "2025-04-13T06:39:56.338Z"
   },
   "__v": 0
 }]
