@@ -324,6 +324,20 @@ Pay down high-interest debt aggressively while exploring cheaper alternatives fo
                 
                 # Get receipt IDs from vector search if we're not using category filter
                 unique_receipt_ids = []
+                category_from_message = None
+                
+                # Look for category mentions in follow-up questions
+                for category_name in category_keywords.keys():
+                    if category_name.lower() in user_message_lower:
+                        category_from_message = category_name
+                        logger.info(f"Found category name in message: {category_from_message}")
+                        break
+                
+                # If it's a follow-up about a specific category, treat it like a category query
+                if category_from_message and not detected_category:
+                    detected_category = category_from_message
+                    logger.info(f"Setting detected category from message text: {detected_category}")
+                
                 if not detected_category:
                     unique_receipt_ids = list(set([doc['receiptId'] for doc in relevant_docs if 'receiptId' in doc]))
                     logger.info(f"Found {len(unique_receipt_ids)} unique receipt IDs from vector search")
@@ -488,9 +502,9 @@ Pay down high-interest debt aggressively while exploring cheaper alternatives fo
                         
                         # Create an explicit category summary at the VERY beginning for the LLM
                         summary_context = "\n\n=== ACCURATE CATEGORY TOTALS (MUST USE THESE EXACT FIGURES) ===\n"
+                        # Add ALL category totals, not just the detected one
                         for category_name, total in category_totals.items():
-                            if detected_category and detected_category.lower() == category_name.lower():
-                                summary_context += f"TOTAL FOR {category_name.upper()} CATEGORY: ${total:.2f} (THIS IS THE CORRECT NUMBER)\n"
+                            summary_context += f"TOTAL FOR {category_name.upper()} CATEGORY: ${total:.2f} (THIS IS THE CORRECT NUMBER)\n"
                                 
                         # Insert summary at the BEGINNING of the context
                         retrieved_context_str = summary_context + retrieved_context_str
@@ -563,8 +577,29 @@ Pay down high-interest debt aggressively while exploring cheaper alternatives fo
             # Simple history formatting:
             formatted_history = "\n".join([f"{msg['sender'].upper()}: {msg['content']}" for msg in history])
 
+            # Add explicit instructions for category listings
+            category_specific_instructions = ""
+            if detected_category:
+                category_specific_instructions = f"""
+CRITICAL INSTRUCTIONS FOR LISTING {detected_category.upper()} CATEGORY:
+1. The EXACT TOTAL for the {detected_category.upper()} category is ${category_totals.get(detected_category.capitalize(), 0):.2f}.
+2. Here is the COMPLETE LIST of ALL receipts in this category that MUST be included:
+"""
+                if detected_category.capitalize() in category_receipts:
+                    for receipt in category_receipts[detected_category.capitalize()]:
+                        merchant = receipt.get('merchantName', 'Unknown')
+                        amount = receipt.get('totalCost', 0)
+                        category_specific_instructions += f"   - {merchant}: ${amount}\n"
+                category_specific_instructions += f"""
+3. When listing these items, include ALL of them and ENSURE they add up to EXACTLY ${category_totals.get(detected_category.capitalize(), 0):.2f}.
+4. DO NOT hallucinate or invent details about items that aren't explicitly mentioned in the receipts.
+5. If you're asked to present this in point form, simply list each merchant with its total amount.
+"""
+
             prompt = f"""Conversation History:
 {formatted_history}
+
+{category_specific_instructions}
 
 Relevant Context from Receipts:
 {retrieved_context_str}
