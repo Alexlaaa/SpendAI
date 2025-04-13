@@ -1,0 +1,16 @@
+[{
+  "_id": {
+    "$oid": "67fb4b46e354db9a8cda60c0"
+  },
+  "userId": {
+    "$oid": "66f0cae53f33fc7276ec3c40"
+  },
+  "title": "AI Insights",
+  "createdAt": {
+    "$date": "2025-04-13T05:27:34.136Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-13T05:30:24.826Z"
+  },
+  "__v": 0
+}]

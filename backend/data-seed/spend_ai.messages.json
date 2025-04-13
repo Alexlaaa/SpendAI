@@ -1,0 +1,68 @@
+[{
+  "_id": {
+    "$oid": "67fb4b4ce354db9a8cda60c7"
+  },
+  "sender": "user",
+  "content": "List all spendings in the clothing category, in point form",
+  "conversationId": {
+    "$oid": "67fb4b46e354db9a8cda60c0"
+  },
+  "createdAt": {
+    "$date": "2025-04-13T05:27:40.144Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-13T05:27:40.144Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67fb4b77e354db9a8cda60cb"
+  },
+  "sender": "ai",
+  "content": "{\"insights\": \"Clothing expenses total $695.00.  The breakdown is as follows: Levi's $150, Uniqlo $150, H&M $110, Nike $80, Zara $120, and Cotton On $85. This shows a significant portion of the budget is allocated to clothing.\", \"status\": true}",
+  "conversationId": {
+    "$oid": "67fb4b46e354db9a8cda60c0"
+  },
+  "createdAt": {
+    "$date": "2025-04-13T05:28:23.079Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-13T05:28:23.079Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67fb4babe354db9a8cda60d3"
+  },
+  "sender": "user",
+  "content": "What did I spend in uniqlo?",
+  "conversationId": {
+    "$oid": "67fb4b46e354db9a8cda60c0"
+  },
+  "createdAt": {
+    "$date": "2025-04-13T05:29:15.757Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-13T05:29:15.757Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67fb4bafe354db9a8cda60d7"
+  },
+  "sender": "ai",
+  "content": "{\"insights\": \"You spent $150.00 at Uniqlo on February 1st, 2025.  The purchase was for a winter jacket.\", \"status\": true}",
+  "conversationId": {
+    "$oid": "67fb4b46e354db9a8cda60c0"
+  },
+  "createdAt": {
+    "$date": "2025-04-13T05:29:19.948Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-13T05:29:19.948Z"
+  },
+  "__v": 0
+}]
