@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks/AuthProvider";
-import { GoalResponse, GoalType } from "@/app/api/goals/route";
+import { GoalResponse, GoalType } from "@/types/goals"; // Corrected import path
 import { addContributionToAction } from "@/app/actions/goals";
 import { toast } from "@/hooks/use-toast";
 import { GoalForm, GoalFormData } from "@/components/forms/GoalForm";
@@ -335,8 +335,7 @@ const GoalsPage = () => {
 
       {!isLoading && !error && goals.length === 0 && (
         <p>
-          You haven't set any financial goals yet. Click "Set New Goal" to
-          start!
+          {`You haven't set any financial goals yet. Click "Set New Goal" to start!`}
         </p>
       )}
 

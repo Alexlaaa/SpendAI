@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchUserApiTokenStatus, updateUserApiTokens } from '@/app/api/settings/route';
+import { fetchUserApiTokenStatus, updateUserApiTokens } from '@/app/actions/settings';
 
 export function useApiTokens() {
   const [loading, setLoading] = useState(true);

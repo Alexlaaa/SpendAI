@@ -1,6 +1,6 @@
 "use client";
 
-import { GoalResponse } from "@/app/api/goals/route";
+import { GoalResponse } from "@/types/goals"; // Corrected import path
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { differenceInDays, parseISO, isValid } from "date-fns";
 import {

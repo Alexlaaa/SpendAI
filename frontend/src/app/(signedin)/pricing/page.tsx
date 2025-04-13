@@ -6,7 +6,7 @@ import { pricingPlans } from "@/constants";
 // Import User type and useAuth hook
 import { useAuth, User } from "@/hooks/AuthProvider";
 // Removed getLoggedInUser import as we use refreshUser from context
-import { updateUserTier } from "@/app/api/settings/route";
+import { updateUserTier } from "@/app/actions/settings";
 import { useToast } from "@/hooks/use-toast";
 
 // Define Tier type locally

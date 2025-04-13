@@ -1,54 +1,14 @@
 // frontend/src/app/api/goals/route.ts
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-
-export enum GoalType {
-  SHORT_TERM = "short-term",
-  LONG_TERM = "long-term",
-}
+import {
+  GoalType,
+  CreateGoalPayload,
+  UpdateGoalPayload,
+  GoalResponse,
+} from "@/types/goals"; // Import types from the new file
 
 const BACKEND_URL = process.env.BACKEND_URL;
-
-// Define types for Goal DTOs (mirroring backend DTOs)
-export interface CreateGoalPayload {
-  name: string;
-  targetAmount: number;
-  currentAmount?: number;
-  deadline?: string; // ISO string format
-  type: GoalType;
-  category?: string;
-  priority?: number;
-}
-
-export interface UpdateGoalPayload {
-  name?: string;
-  targetAmount?: number;
-  currentAmount?: number;
-  deadline?: string | null;
-  type?: GoalType;
-  category?: string;
-  priority?: number;
-}
-
-// Define Contribution type for response
-interface Contribution {
-  amount: number;
-  date: string; // Use string for date consistency in frontend
-}
-
-export interface GoalResponse {
-  id: string;
-  name: string;
-  targetAmount: number;
-  currentAmount: number;
-  deadline?: string;
-  type: GoalType;
-  category?: string;
-  priority?: number;
-  contributions: Contribution[];
-  createdAt: string;
-  updatedAt: string;
-}
 
 // GET all goals
 export async function GET(): Promise<

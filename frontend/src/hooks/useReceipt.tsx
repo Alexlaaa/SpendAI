@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useCallback } from 'react';
-import { getAllReceiptsServerAction, confirmReceiptServerAction, uploadReceiptServerAction, updateReceiptServerAction } from '@/app/api/receipt/route';
+import { getAllReceiptsServerAction, confirmReceiptServerAction, uploadReceiptServerAction, updateReceiptServerAction } from '@/app/actions/receipt';
 import { ReceiptResponse } from "@/components/table/transactionCols"
 
 const capitalizeText = (text: string): string => {

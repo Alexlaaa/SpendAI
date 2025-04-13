@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react';
-import { fetchAIPromptServerAction } from '@/app/api/aiprompt/route';
+import { fetchAIPromptServerAction } from '@/app/actions/aiprompt';
 
 export function useAIPrompt() {
     const [loading, setLoading] = useState<boolean>(false);

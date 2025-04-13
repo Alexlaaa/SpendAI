@@ -64,7 +64,13 @@ const Sidebar: React.FC = () => {
             : "hover:bg-gray-100" // Default hover style
         }`}
       >
-        <Image src={link.icon} alt={link.label} width={24} height={24} />
+        <Image
+          src={link.icon}
+          alt={link.label}
+          width={24}
+          height={24}
+          className={!sufficient ? "opacity-50" : ""} // Dim icon if tier insufficient
+        />
         <span>{link.label}</span>
       </div>
     );
@@ -84,7 +90,7 @@ const Sidebar: React.FC = () => {
               {linkContent}
             </TooltipTrigger>
             <TooltipContent>
-              <p>Tier 3 feature. Subscription needed.</p>
+              <p>{`Tier ${link.requiredTier?.replace("tier", "") || ""} feature. Subscription needed.`}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

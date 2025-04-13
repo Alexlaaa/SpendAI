@@ -45,13 +45,7 @@ export const sideBarLinks = [
     label: "Goals",
     route: "/goals",
     icon: "/icons/goals.svg",
-  },
-  {
-    id: "navLink5",
-    position: "top",
-    label: "Pricing",
-    route: "/pricing",
-    icon: "/icons/pricing.svg",
+    requiredTier: "tier2", // Add tier requirement for Goals
   },
   {
     id: "navLinkChat", // New ID for Chat
@@ -60,6 +54,13 @@ export const sideBarLinks = [
     route: "/chat",
     icon: "/icons/bot.svg", // Use bot icon
     requiredTier: "tier3", // Add tier requirement
+  },
+  {
+    id: "navLink5",
+    position: "top",
+    label: "Pricing",
+    route: "/pricing",
+    icon: "/icons/pricing.svg",
   },
   {
     id: "navLink6",

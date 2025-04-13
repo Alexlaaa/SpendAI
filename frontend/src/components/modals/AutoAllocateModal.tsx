@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import { GoalResponse } from "@/app/api/goals/route";
+import { GoalResponse } from "@/types/goals"; // Corrected import path
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -154,10 +154,10 @@ export function AutoAllocateModal({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Auto-Allocate Savings</DialogTitle>
-          <DialogDescription>
-            Enter the total amount saved this period. We'll propose an
-            allocation based on goal deadlines and priorities.
-          </DialogDescription>
+            <DialogDescription>
+              {`Enter the total amount saved this period. We'll propose an
+              allocation based on goal deadlines and priorities.`}
+            </DialogDescription>
         </DialogHeader>
 
         {!showConfirmation ? (

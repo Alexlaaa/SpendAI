@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { GoalResponse } from "@/app/api/goals/route";
+import { GoalResponse } from "@/types/goals"; // Corrected import path
 
 const BACKEND_URL = process.env.BACKEND_URL;
 

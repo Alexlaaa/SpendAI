@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { signIn, signUp, signOut, getLoggedInUser } from '@/app/api/auth/route';
+import { signIn, signUp, signOut, getLoggedInUser } from '@/app/actions/auth';
 import { useRouter } from 'next/navigation';
 
 // Export the User type

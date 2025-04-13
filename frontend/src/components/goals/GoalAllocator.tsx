@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { GoalResponse } from "@/app/api/goals/route";
+import { GoalResponse } from "@/types/goals"; // Corrected import path
 import {
   Card,
   CardContent,
@@ -446,11 +446,11 @@ export function GoalAllocator({ goals }: GoalAllocatorProps) {
               </TableBody>
             </Table>
             <p className="text-xs text-muted-foreground pt-1">
-              *N/A: Goal might not be reachable within the simulation timeframe
-              with the current savings amount.
+              {`*N/A: Goal might not be reachable within the simulation timeframe
+              with the current savings amount.`}
             </p>
             {/* Optional: Add button to apply allocation */}
-            {/* <Button variant="outline" size="sm" className="mt-2">Apply this allocation automatically (Coming Soon)</Button> */}
+            {/* <Button variant="outline" size="sm" className="mt-2">{`Apply this allocation automatically (Coming Soon)`}</Button> */}
           </div>
         )}
         {/* --- End Results Display Area --- */}

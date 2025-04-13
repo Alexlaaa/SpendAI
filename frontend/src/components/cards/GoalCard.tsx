@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useState } from "react";
-import { GoalResponse } from "@/app/api/goals/route";
+import { GoalResponse } from "@/types/goals"; // Corrected import path
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import {

@@ -19,7 +19,7 @@ import {
   updateBudgetServerAction,
   deleteBudgetServerAction,
   Budget,
-} from "@/app/api/budgets/route";
+} from "@/app/actions/budgets"; // Corrected import path
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
