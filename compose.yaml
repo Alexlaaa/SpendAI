@@ -6,7 +6,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3002"
+      - "3000:3000"
     volumes:
       - ./frontend:/src/frontend
       - /src/frontend/node_modules
@@ -27,7 +27,7 @@ services:
         - path: ./frontend
           target: /src/frontend
           action: sync
-    command: npm run dev -- -p 3002
+    command: npm start
     networks:
       - app-network
 
