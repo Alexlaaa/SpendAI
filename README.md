@@ -45,18 +45,7 @@ This project is part of the SC4052 Cloud Computing course.
      - `? How would you like to connect to <deploymentName>?` -> You can select `compass` to open MongoDB Compass and connect automatically, or `skip`.
    - Leave this terminal window running; it hosts your local Atlas deployment.
 
-2. **Create Vector Search Index (First Time Setup):**
-   - The first time you set up the local deployment (or if the index is missing), you need to create the vector search index required for the RAG feature.
-   - Open a **new** terminal window (keep the deployment running in the other).
-   - Navigate to the project root directory (`SpendAI`).
-   - Run the following command, replacing `<deploymentName>` with the name shown in the previous step (e.g., `local4067`):
-     ```bash
-     atlas deployments search indexes create vector_index --deploymentName <deploymentName> --file vector_index_definition.json
-     ```
-   - Wait for the command to confirm `Search index created...`. You can monitor the index status in Compass (under the "Search Indexes" tab for the `receipt_embeddings` collection) or using `atlas deployments search indexes list ...` until it shows as "READY" or "ACTIVE".
-   - You only need to do this index creation step once per local deployment setup.
-
-3. **Run the Application Stack:**
+2. **Run the Application Stack:**
 
    - Open a _new_ terminal window.
    - Navigate to the project root directory.
@@ -67,6 +56,17 @@ This project is part of the SC4052 Cloud Computing course.
      ```
 
      _(Note: The original `docker-compose` command is often aliased or replaced by `docker compose` in newer Docker versions)._
+
+3. **Create Vector Search Index:**
+   - You need to create the vector search index required for the RAG feature.
+   - Open a **new** terminal window (keep the deployment running in the other).
+   - Navigate to the project root directory (`SpendAI`).
+   - Run the following command, replacing `<deploymentName>` with the name shown in the previous step (e.g., `local4067`):
+     ```bash
+     atlas deployments search indexes create vector_index --deploymentName <deploymentName> --file vector_index_definition.json
+     ```
+   - Wait for the command to confirm `Search index created...`. You can monitor the index status in Compass (under the "Search Indexes" tab for the `receipt_embeddings` collection) or using `atlas deployments search indexes list ...` until it shows as "READY" or "ACTIVE".
+   - You only need to do this index creation step once per local deployment setup.
 
 4. **Access Services:**
    - Frontend UI: `http://localhost:3000`
