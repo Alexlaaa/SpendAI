@@ -4,6 +4,8 @@
 
 This project is part of the SC4052 Cloud Computing course.
 
+[Demonstration Video](https://www.youtube.com/watch?v=awpbQ2QTFJg&ab_channel=Alex)
+
 ## Project Structure
 
 ```
