@@ -28,6 +28,26 @@ This project is part of the SC4052 Cloud Computing course.
 
 - Docker / Docker Desktop
 - [Atlas CLI](https://www.mongodb.com/docs/atlas/cli/stable/install-atlas-cli/)
+- Create a `.env` file in the root directory with the following fields populated:
+
+```env
+# OAUTH (Google API Credentials)
+OAUTH_CLIENT_ID=your_client_id
+OAUTH_CLIENT_SECRET=your_client_secret
+OAUTH_REFRESH_TOKEN=your_refresh_token
+EMAIL_USER=your_gmail_address
+```
+#### Google Developer Account Setup
+This application requires OAuth credentials from a Google Developer account:
+
+1. Create a Google Cloud Project at Google Cloud Console
+2. Enable the Gmail API for your project
+3. Configure the OAuth consent screen
+4. Create OAuth client credentials (Web application type)
+5. Generate a refresh token using your client credentials
+
+For detailed instructions on setting up Google OAuth credentials, see Google's OAuth 2.0 documentation.
+Note: The EMAIL_USER should be the Gmail address associated with your Google Developer account that you've authorized in the OAuth consent screen.
 
 ### Running the Application
 
